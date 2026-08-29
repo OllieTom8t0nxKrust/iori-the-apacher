@@ -141,3 +141,22 @@ dist
 vite.config.js.timestamp-*
 vite.config.ts.timestamp-*
 .vite/
+
+# Added by cargo
+/target
+
+# Database & Local Runtime Artifacts
+*.db
+*.sqlite
+*.sqlite3
+iori_apacher.db
+/tmp/
+src/tmp/
+
+# OS Specific
+.DS_Store
+Thumbs.db
+
+# IDEs
+.idea/
+.vscode/
