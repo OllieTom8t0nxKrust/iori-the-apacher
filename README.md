@@ -11,8 +11,15 @@
 3. **Dual Cryptography Submenus**:
    - **Domestic / Corp Ciphers**: AES-256-GCM, ChaCha20-Poly1305, RSA-4096, ECC P-384, Ed25519.
    - **Quantum-Resistant Ciphers**: ML-KEM (Kyber-1024), ML-DSA (Dilithium), and the novel **PFE-969** Hyper-Dimensional Lattice Cipher.
-4. **Forensic Telemetry & Tunnels**: Grabify-inspired real-time IP tracking, hardware fingerprinting, geolocation resolution, and NGROK-style secure tunneling over HTTP/HTTPS/QUIC.
-5. **Modern Web Management Console**: Built with Node.js, TypeScript, Vite, React, and Tailwind CSS, featuring a beautiful dark-mode glassmorphism interface inspired by NGROK and Grabify.
+4. **Advanced Routing & Anonymity Suite**:
+   - **Tor (.onion v3)**, **I2P**, and **Freenet SST** protocol integration options.
+   - **Multi-Hop Relay Chaining** & **Proxychains** support (Strict, Dynamic, Random chains).
+   - **Crypto Pre-Launch Verification**: Enforces mandatory cryptographic protection before public internet server deployment.
+5. **Operational Forensic Grabify Suite**: Real-time IP tracking, risk scoring, User-Agent bot detection, Tor exit node identification, hardware fingerprinting, and geolocation resolution.
+6. **Modern Web Management Console**: Built with Node.js, TypeScript, Vite, React, and Tailwind CSS.
+7. **Enhanced Interactive REPL Shell**:
+   - **Persistent History**: Command history saved across sessions (`.iori_history`).
+   - **OS Command Execution**: Executes native Linux commands (e.g., `ls`, `pwd`) directly, secured against shell injection.
 
 ---
 
@@ -24,64 +31,22 @@
 
 ---
 
-### Part 1: Running the CLI Mode
+### Part 1: Running the CLI & Advanced Routing Mode
 
 1. **Build the Rust Release Binary**:
    ```bash
    cargo build --release
    ```
 
-2. **Create an HTTP/HTTPS Tunnel**:
+2. **Launch the Interactive Shell**:
    ```bash
-   target/release/iori-the-apacher tunnel create --subdomain myapp --port 8080 --protocol https
+   target/release/iori-the-apacher shell
    ```
+   *Within the shell, you can use built-in app commands or execute native OS commands (e.g., `ls -la`, `pwd`). Command history is maintained.*
 
-3. **List Active Tunnels**:
+3. **Launch a Secure Server with Tor & PFE-969 Quantum Protection**:
    ```bash
-   target/release/iori-the-apacher tunnel list
-   ```
-
-4. **Record Forensic Telemetry (Grabify Style)**:
-   target/release/iori-the-apacher forensic track --ip "192.168.1.100" --user-agent "Mozilla/5.0" --hardware "x86_64-avx512" --geo "Zurich, CH"
-
-5. **List Recorded Forensic Telemetries**:
-   ```bash
-   target/release/iori-the-apacher forensic list
-   ```
-
-6. **Execute Domestic Encryption (AES-256-GCM)**:
-   ```bash
-   target/release/iori-the-apacher crypto domestic --algorithm aes --key "0123456789abcdef0123456789abcdef" --message "Classified Domestic Payload"
-   ```
-
-7. **Execute Quantum-Resistant Encryption (PFE-969 Lattice)**:
-   ```bash
-   target/release/iori-the-apacher crypto quantum --algorithm pfe969 --message "Classified Quantum-Resistant Payload"
-   ```
-
----
-
-### Part 2: Running the Web Frontend Panel
-
-1. **Navigate to the Frontend Directory**:
-   ```bash
-   cd frontend
-   ```
-
-2. **Install Node Dependencies**:
-   ```bash
-   npm install
-   ```
-
-3. **Launch the Development Server**:
-   ```bash
-   npm run dev
-   ```
-   *The web console will be accessible at `http://localhost:3000` with live glassmorphism UI, tunneling management, forensic telemetry streams, and dual crypto submenus.*
-
-4. **Build for Production**:
-   ```bash
-   npm run build
+   target/release/iori-the-apacher server launch --subdomain secapp --port 8080 --protocol tor --crypto pfe969 --hops "relay1,relay2" --proxychains true --public true
    ```
 
 ---
@@ -91,3 +56,5 @@
 - [Frontend Changelog](FRONTEND-CHANGELOG.md)
 - [PFE-969 Crypto Study](PFE-969-CRYPTO-CYPHER-STUDY.md)
 - [Database Models](DATABASE-MODELS.md)
+- [Interactive CLI Guide](INTERACTIVE-CLI-GUIDE.md)
+- [Manual Testing Guide](MANUAL-TESTING.md)

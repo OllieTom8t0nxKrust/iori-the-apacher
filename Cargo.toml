@@ -16,6 +16,7 @@ sha2 = "0.10"
 rand = "0.8"
 rusqlite = { version = "0.31", features = ["bundled"] }
 async-trait = "0.1"
+rustyline = "15.0"
 
 [dev-dependencies]
 tempfile = "3.8"

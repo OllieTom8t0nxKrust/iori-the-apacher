@@ -3,7 +3,23 @@
 All notable changes to this project will be documented in this file.
 
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
-and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0/).
+and this project adheres to Semantic Versioning.
+
+## [1.3.0] - 2026-08-30
+
+### Added
+- **Enhanced Interactive REPL Shell**: Integrated `rustyline` for persistent command history across sessions (`.iori_history`).
+- **OS Command Execution**: Enabled native Linux command execution (e.g., `ls`, `pwd`) directly from the interactive shell.
+- **Security-First Execution Design**: Implemented command execution without shell invocation (direct binary spawning), preventing common shell injection vulnerabilities (piping/redirection is intentionally disabled).
+
+## [1.2.0] - 2026-08-29
+
+### Added
+- **Advanced Routing & Anonymity Suite**: Added Tor (.onion v3), I2P stream, and Freenet SST protocol integration options for server tunneling and routing.
+- **Multi-Hop & Proxychains Integration**: Added multi-hop relay node chaining and Proxychains configuration (Strict, Dynamic, Random chains) for enhanced investigation security.
+- **Crypto Pre-Launch Verification**: Enforced mandatory cryptographic protection (AES, ChaCha, Kyber, Dilithium, PFE-969) before launching servers to the public internet.
+- **Operational Forensic Grabify Suite**: Removed all simulation/mock stubs, replacing them with real operational risk scoring, User-Agent bot detection, Tor exit node recognition, and anomaly analytics.
+- **Full CLI & REPL Parity**: Added `server launch`, `server list`, and `server delete` commands to both non-interactive CLI and interactive REPL shell with detailed help documentation.
 
 ## [1.1.0] - 2026-08-28
 

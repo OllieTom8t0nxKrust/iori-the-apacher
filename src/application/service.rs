@@ -2,8 +2,11 @@ use std::sync::Arc;
 use crate::ports::storage_port::StoragePort;
 use crate::domain::tunnel::TunnelSession;
 use crate::domain::forensic::ForensicTelemetry;
+use crate::domain::crypto_vault::CryptoVaultRecord;
+use crate::domain::routing::{ServerLaunchConfig, NetworkProtocol, CryptoRequirement};
 use crate::domain::crypto_config::{CryptoEngine, DomesticAlgorithm, QuantumAlgorithm};
 use crate::domain::pfe969::Pfe969Cipher;
+use crate::adapters::launcher::NetworkLauncher;
 
 #[derive(Clone)]
 pub struct ApplicationService {
@@ -25,6 +28,22 @@ impl ApplicationService {
         self.storage.get_tunnels().await
     }
 
+    pub async fn get_tunnel(&self, id: &str) -> Result<Option<TunnelSession>, String> {
+        self.storage.get_tunnel(id).await
+    }
+
+    pub async fn update_tunnel(&self, id: String, subdomain: String, target_port: u16, protocol: String, active: bool) -> Result<(), String> {
+        let session = TunnelSession {
+            id,
+            subdomain,
+            target_port,
+            protocol,
+            active,
+            created_at: chrono::Utc::now().to_rfc3339(),
+        };
+        self.storage.update_tunnel(&session).await
+    }
+
     pub async fn delete_tunnel(&self, id: String) -> Result<(), String> {
         self.storage.delete_tunnel(&id).await
     }
@@ -37,6 +56,112 @@ impl ApplicationService {
 
     pub async fn list_forensics(&self) -> Result<Vec<ForensicTelemetry>, String> {
         self.storage.get_forensics().await
+    }
+
+    pub async fn get_forensic(&self, tracking_id: &str) -> Result<Option<ForensicTelemetry>, String> {
+        self.storage.get_forensic(tracking_id).await
+    }
+
+    pub async fn update_forensic(&self, tracking_id: String, source_ip: String, user_agent: String, hardware_fingerprint: String, geo_location: String) -> Result<(), String> {
+        let telemetry = ForensicTelemetry::new(source_ip, user_agent, hardware_fingerprint, geo_location);
+        let updated = ForensicTelemetry {
+            tracking_id,
+            source_ip: telemetry.source_ip,
+            user_agent: telemetry.user_agent,
+            hardware_fingerprint: telemetry.hardware_fingerprint,
+            geo_location: telemetry.geo_location,
+            risk_score: telemetry.risk_score,
+            anomaly_flags: telemetry.anomaly_flags,
+            timestamp: chrono::Utc::now().to_rfc3339(),
+        };
+        self.storage.update_forensic(&updated).await
+    }
+
+    pub async fn delete_forensic(&self, tracking_id: String) -> Result<(), String> {
+        self.storage.delete_forensic(&tracking_id).await
+    }
+
+    pub async fn save_crypto_vault(&self, algorithm: String, ciphertext_hex: String, key_hex: String, metadata: String) -> Result<CryptoVaultRecord, String> {
+        let record = CryptoVaultRecord::new(algorithm, ciphertext_hex, key_hex, metadata);
+        self.storage.save_crypto_vault(&record).await?;
+        Ok(record)
+    }
+
+    pub async fn list_crypto_vaults(&self) -> Result<Vec<CryptoVaultRecord>, String> {
+        self.storage.get_crypto_vaults().await
+    }
+
+    pub async fn get_crypto_vault(&self, id: &str) -> Result<Option<CryptoVaultRecord>, String> {
+        self.storage.get_crypto_vault(id).await
+    }
+
+    pub async fn delete_crypto_vault(&self, id: String) -> Result<(), String> {
+        self.storage.delete_crypto_vault(&id).await
+    }
+
+    pub async fn launch_server(
+        &self,
+        subdomain: String,
+        target_port: u16,
+        protocol: NetworkProtocol,
+        crypto_requirement: CryptoRequirement,
+        multi_hop_nodes: Vec<String>,
+        proxychains_enabled: bool,
+        public_internet_launch: bool,
+    ) -> Result<ServerLaunchConfig, String> {
+        let config = ServerLaunchConfig::new(
+            subdomain,
+            target_port,
+            protocol,
+            crypto_requirement,
+            multi_hop_nodes,
+            proxychains_enabled,
+            public_internet_launch,
+        )?;
+        
+        // Actually launch the process
+        NetworkLauncher::launch(&config)?;
+
+        self.storage.save_server_launch(&config).await?;
+        Ok(config)
+    }
+
+    pub async fn list_server_launches(&self) -> Result<Vec<ServerLaunchConfig>, String> {
+        self.storage.get_server_launches().await
+    }
+
+    pub async fn get_server_launch(&self, id: &str) -> Result<Option<ServerLaunchConfig>, String> {
+        self.storage.get_server_launch(id).await
+    }
+
+    pub async fn update_server_launch(
+        &self,
+        id: String,
+        subdomain: String,
+        target_port: u16,
+        protocol: NetworkProtocol,
+        crypto_requirement: CryptoRequirement,
+        multi_hop_nodes: Vec<String>,
+        proxychains_enabled: bool,
+        public_internet_launch: bool,
+    ) -> Result<(), String> {
+        let config = ServerLaunchConfig {
+            id,
+            subdomain,
+            target_port,
+            protocol,
+            crypto_requirement,
+            multi_hop_nodes,
+            proxychains_enabled,
+            public_internet_launch,
+            status: "Updated".to_string(),
+            created_at: chrono::Utc::now().to_rfc3339(),
+        };
+        self.storage.update_server_launch(&config).await
+    }
+
+    pub async fn delete_server_launch(&self, id: String) -> Result<(), String> {
+        self.storage.delete_server_launch(&id).await
     }
 
     pub fn encrypt_domestic(&self, algo: DomesticAlgorithm, key: &[u8], plaintext: &[u8]) -> Result<(Vec<u8>, Vec<u8>), String> {

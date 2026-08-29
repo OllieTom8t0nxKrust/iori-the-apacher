@@ -21,7 +21,7 @@ export const Sidebar: React.FC<SidebarProps> = ({ activeTab, setActiveTab }) => 
       <div className="p-6 border-b border-gray-800 flex items-center space-x-3">
         <CabocloIoriLogo />
         <div>
-          <h1 className="font-bold text-lg tracking-tight text-white">Caboclo Iori</h1>
+          <h1 className="font-bold text-lg tracking-tight text-white">IORI THE APACHER</h1>
           <p className="text-xs text-amber-400/80 font-medium">Quantum & Forensic Console</p>
         </div>
       </div>
