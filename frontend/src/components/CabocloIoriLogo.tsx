@@ -1,0 +1,57 @@
+import React, { useState, useEffect } from 'react';
+import { Zap } from 'lucide-react';
+
+export const CabocloIoriLogo: React.FC = () => {
+  const [energized, setEnergized] = useState(false);
+  const [flashLightning, setFlashLightning] = useState(false);
+
+  useEffect(() => {
+    // Trigger lightning strike and energize every 30 seconds
+    const interval = setInterval(() => {
+      setFlashLightning(true);
+      setEnergized(true);
+
+      setTimeout(() => {
+        setFlashLightning(false);
+      }, 900); // lightning flash duration
+
+      setTimeout(() => {
+        setEnergized(false);
+      }, 4000); // total energized duration
+    }, 30000);
+
+    return () => clearInterval(interval);
+  }, []);
+
+  return (
+    <div className="relative flex items-center justify-center">
+      {/* Lightning Bolt From Above */}
+      {flashLightning && (
+        <div className="absolute -top-14 left-1/2 transform -translate-x-1/2 z-30 pointer-events-none animate-bounce">
+          <Zap className="w-10 h-10 text-cyan-300 drop-shadow-[0_0_18px_rgba(6,182,212,0.95)]" />
+        </div>
+      )}
+
+      {/* Logo Image Container */}
+      <div className={`relative w-12 h-12 rounded-2xl transition-all duration-700 flex items-center justify-center overflow-hidden border-2 ${
+        energized
+          ? 'border-cyan-400 shadow-[0_0_35px_rgba(6,182,212,0.9)] scale-110 brightness-125'
+          : 'border-amber-500/50 shadow-lg shadow-amber-600/30'
+      }`}>
+        {/* Caboclo-Iori Photo Logo */}
+        <img
+          src="/caboclo-iori.jpg"
+          alt="Caboclo-Iori Logo"
+          className="w-full h-full object-cover"
+        />
+
+        {/* Raiden Lightning Bolt Glow Overlay when energized */}
+        {energized && (
+          <div className="absolute inset-0 bg-cyan-400/30 mix-blend-color-dodge flex items-center justify-center pointer-events-none">
+            <div className="w-full h-full border-2 border-cyan-200 animate-ping rounded-xl opacity-90"></div>
+          </div>
+        )}
+      </div>
+    </div>
+  );
+};
