@@ -1,4 +1,4 @@
-# Manual Testing Guide - Iori The Apacher
+# Manual Testing Guide - IORI THE APACHER
 
 This document outlines manual testing procedures for features that cannot be fully automated in the current environment due to external dependencies (Tor, I2P, Freenet, Proxychains) or interactive nature (CLI shell).
 
