@@ -5,6 +5,25 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to Semantic Versioning.
 
+## [1.5.0] - 2026-08-30
+
+### Removed
+- **Forensic Intelligence & Grabify Suite**: Completely removed the forensic module, database table (`forensics`), domain model, CLI subcommands (`forensic`), and frontend UI components (`ForensicTracker.tsx`), streamlining the tool strictly around secure networking, tunnels, and post-quantum cryptography.
+
+### Remade
+- **Database Architecture**: Remade and cleaned up the SQLite database schema (`SqliteStorageAdapter`), retaining exclusively the core tables: `tunnels`, `crypto_vault`, and `server_launches`.
+
+## [1.4.0] - 2026-08-30
+
+### Added
+- **Top-Level Create Command**: Added top-level `create` command shortcut alongside `tunnel create` for streamlined tunnel provisioning.
+- **Google Maps Geolocation Compatibility**: Enabled `allow_hyphen_values = true` on forensic tracking (`track` and `update`), supporting negative coordinate formatting (e.g. `-23.6688938,-46.6801928`).
+- **SQLite Schema Auto-Migration**: Added automatic column checks (`ALTER TABLE`) to SQLite storage adapter for seamless backward compatibility on existing databases.
+- **Interactive REPL App Command Routing & Help**: Implemented direct app command dispatch (`tunnel`, `forensic`, `crypto`, `server`, `create`, `help`) inside the interactive shell, eliminating external execution errors. Added a dedicated interactive shell help directory.
+- **Randomized ASCII Art Startup Banners**: Added 3 distinct ASCII art banners featuring "IORI THE APACHER" that randomly cycle upon launching the interactive shell.
+- **Robust Network Launcher & Tor Support**: Enhanced `NetworkLauncher` with graceful fallback handling and notice logging for `tor` and `proxychains` daemon execution.
+- **Comprehensive README Usage Examples**: Added step-by-step usage examples for every project feature in `README.md`.
+
 ## [1.3.0] - 2026-08-30
 
 ### Added

@@ -1,4 +1,4 @@
-# Frontend Changelog - Iori The Apacher Management Panel
+# Frontend Changelog - IORI THE APACHER Management Panel
 
 All notable changes to the web frontend panel will be documented in this file.
 
