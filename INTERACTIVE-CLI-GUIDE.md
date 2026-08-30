@@ -1,4 +1,4 @@
-# Interactive CLI Guide - Iori The Apacher
+# Interactive CLI Guide - IORI THE APACHER
 
 The `iori-the-apacher` interactive shell (REPL) is a powerful tool designed for cybersecurity investigations and forensic analysis.
 
