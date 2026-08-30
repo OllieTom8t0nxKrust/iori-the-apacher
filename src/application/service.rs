@@ -1,7 +1,6 @@
 use std::sync::Arc;
 use crate::ports::storage_port::StoragePort;
 use crate::domain::tunnel::TunnelSession;
-use crate::domain::forensic::ForensicTelemetry;
 use crate::domain::crypto_vault::CryptoVaultRecord;
 use crate::domain::routing::{ServerLaunchConfig, NetworkProtocol, CryptoRequirement};
 use crate::domain::crypto_config::{CryptoEngine, DomesticAlgorithm, QuantumAlgorithm};
@@ -48,39 +47,6 @@ impl ApplicationService {
         self.storage.delete_tunnel(&id).await
     }
 
-    pub async fn record_forensic(&self, ip: String, ua: String, hw: String, geo: String) -> Result<ForensicTelemetry, String> {
-        let telemetry = ForensicTelemetry::new(ip, ua, hw, geo);
-        self.storage.save_forensic(&telemetry).await?;
-        Ok(telemetry)
-    }
-
-    pub async fn list_forensics(&self) -> Result<Vec<ForensicTelemetry>, String> {
-        self.storage.get_forensics().await
-    }
-
-    pub async fn get_forensic(&self, tracking_id: &str) -> Result<Option<ForensicTelemetry>, String> {
-        self.storage.get_forensic(tracking_id).await
-    }
-
-    pub async fn update_forensic(&self, tracking_id: String, source_ip: String, user_agent: String, hardware_fingerprint: String, geo_location: String) -> Result<(), String> {
-        let telemetry = ForensicTelemetry::new(source_ip, user_agent, hardware_fingerprint, geo_location);
-        let updated = ForensicTelemetry {
-            tracking_id,
-            source_ip: telemetry.source_ip,
-            user_agent: telemetry.user_agent,
-            hardware_fingerprint: telemetry.hardware_fingerprint,
-            geo_location: telemetry.geo_location,
-            risk_score: telemetry.risk_score,
-            anomaly_flags: telemetry.anomaly_flags,
-            timestamp: chrono::Utc::now().to_rfc3339(),
-        };
-        self.storage.update_forensic(&updated).await
-    }
-
-    pub async fn delete_forensic(&self, tracking_id: String) -> Result<(), String> {
-        self.storage.delete_forensic(&tracking_id).await
-    }
-
     pub async fn save_crypto_vault(&self, algorithm: String, ciphertext_hex: String, key_hex: String, metadata: String) -> Result<CryptoVaultRecord, String> {
         let record = CryptoVaultRecord::new(algorithm, ciphertext_hex, key_hex, metadata);
         self.storage.save_crypto_vault(&record).await?;
@@ -120,7 +86,7 @@ impl ApplicationService {
         )?;
         
         // Actually launch the process
-        NetworkLauncher::launch(&config)?;
+        let _child = NetworkLauncher::launch(&config)?;
 
         self.storage.save_server_launch(&config).await?;
         Ok(config)

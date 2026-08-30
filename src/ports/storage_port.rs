@@ -1,6 +1,5 @@
 use async_trait::async_trait;
 use crate::domain::tunnel::TunnelSession;
-use crate::domain::forensic::ForensicTelemetry;
 use crate::domain::crypto_vault::CryptoVaultRecord;
 use crate::domain::routing::ServerLaunchConfig;
 
@@ -11,12 +10,6 @@ pub trait StoragePort: Send + Sync {
     async fn get_tunnel(&self, id: &str) -> Result<Option<TunnelSession>, String>;
     async fn update_tunnel(&self, session: &TunnelSession) -> Result<(), String>;
     async fn delete_tunnel(&self, id: &str) -> Result<(), String>;
-
-    async fn save_forensic(&self, telemetry: &ForensicTelemetry) -> Result<(), String>;
-    async fn get_forensics(&self) -> Result<Vec<ForensicTelemetry>, String>;
-    async fn get_forensic(&self, tracking_id: &str) -> Result<Option<ForensicTelemetry>, String>;
-    async fn update_forensic(&self, telemetry: &ForensicTelemetry) -> Result<(), String>;
-    async fn delete_forensic(&self, tracking_id: &str) -> Result<(), String>;
 
     async fn save_crypto_vault(&self, record: &CryptoVaultRecord) -> Result<(), String>;
     async fn get_crypto_vaults(&self) -> Result<Vec<CryptoVaultRecord>, String>;

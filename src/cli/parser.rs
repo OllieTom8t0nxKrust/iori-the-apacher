@@ -2,8 +2,8 @@ use clap::{Parser, Subcommand};
 
 #[derive(Parser, Debug)]
 #[command(name = "iori-the-apacher")]
-#[command(about = "Iori the APACHER - High-performance Apache/Ngrok/Grabify multi-purpose forensic tunneling & quantum crypto suite", long_about = "
-Iori the APACHER is a comprehensive multi-purpose cryptographic and forensic tunneling tool.
+#[command(about = "IORI THE APACHER - High-performance Apache/Ngrok/Grabify multi-purpose forensic tunneling & quantum crypto suite", long_about = "
+IORI THE APACHER is a comprehensive multi-purpose cryptographic and forensic tunneling tool.
 It supports full SQLite database CRUD operations for tunnels, forensic telemetry, cryptographic vault records,
 and secure server launching with Tor, I2P, Freenet, multi-hop routing, proxychains, and mandatory PQC crypto verification.
 ")]
@@ -22,11 +22,6 @@ pub enum Commands {
         #[command(subcommand)]
         action: TunnelAction,
     },
-    #[command(about = "Manage Grabify-inspired IP telemetry, hardware fingerprinting, and behavioral tracking")]
-    Forensic {
-        #[command(subcommand)]
-        action: ForensicAction,
-    },
     #[command(about = "Manage domestic enterprise ciphers (AES/ChaCha) and post-quantum lattice cryptography (PFE-969/Kyber/Dilithium) + Vault CRUD")]
     Crypto {
         #[command(subcommand)]
@@ -36,6 +31,15 @@ pub enum Commands {
     Server {
         #[command(subcommand)]
         action: ServerAction,
+    },
+    #[command(about = "Create and persist a new network tunnel session (top-level shortcut)")]
+    Create {
+        #[arg(short, long, help = "Subdomain prefix for the tunnel endpoint (e.g. 'my-app')")]
+        subdomain: String,
+        #[arg(short, long, help = "Local target port to proxy traffic to (e.g. 8080)")]
+        port: u16,
+        #[arg(short, long, default_value = "http", help = "Protocol type: http, https, quic, or tcp")]
+        protocol: String,
     },
     #[command(about = "Launch the interactive REPL shell for continuous command execution with active background state")]
     Shell,
@@ -75,46 +79,6 @@ pub enum TunnelAction {
     #[command(about = "Delete/stop a tunnel session from the database")]
     Delete {
         #[arg(short, long, help = "Unique UUID of the tunnel session to delete")]
-        id: String,
-    },
-}
-
-#[derive(Subcommand, Debug)]
-pub enum ForensicAction {
-    #[command(about = "Record and persist new forensic IP tracking and hardware fingerprint telemetry")]
-    Track {
-        #[arg(short, long, help = "Source IPv4 or IPv6 address of the target")]
-        ip: String,
-        #[arg(short, long, help = "Browser or client User-Agent string")]
-        user_agent: String,
-        #[arg(short, long, help = "Hardware fingerprint descriptor (e.g. 'x86_64-avx512')")]
-        hardware: String,
-        #[arg(short, long, help = "Estimated geolocation (e.g. 'Zurich, CH')")]
-        geo: String,
-    },
-    #[command(about = "List all recorded forensic telemetry logs from the database")]
-    List,
-    #[command(about = "Retrieve a specific forensic telemetry record by its tracking ID")]
-    Get {
-        #[arg(short, long, help = "Unique tracking UUID of the telemetry log")]
-        id: String,
-    },
-    #[command(about = "Update an existing forensic telemetry log")]
-    Update {
-        #[arg(short, long, help = "Unique tracking UUID of the telemetry log to update")]
-        id: String,
-        #[arg(short, long, help = "Updated source IP address")]
-        ip: String,
-        #[arg(short, long, help = "Updated User-Agent string")]
-        user_agent: String,
-        #[arg(short, long, help = "Updated hardware fingerprint")]
-        hardware: String,
-        #[arg(short, long, help = "Updated geolocation")]
-        geo: String,
-    },
-    #[command(about = "Delete a specific forensic telemetry record from the database")]
-    Delete {
-        #[arg(short, long, help = "Unique tracking UUID of the telemetry log to delete")]
         id: String,
     },
 }

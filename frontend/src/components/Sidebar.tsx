@@ -11,7 +11,6 @@ export const Sidebar: React.FC<SidebarProps> = ({ activeTab, setActiveTab }) => 
   const menuItems = [
     { id: 'dashboard', label: 'Dashboard', icon: LayoutDashboard },
     { id: 'tunnels', label: 'Tunnels & DNS', icon: Network },
-    { id: 'forensic', label: 'Forensic Intelligence', icon: ShieldAlert },
     { id: 'crypto-vault', label: 'Crypto Vault', icon: Lock },
     { id: 'pfe969', label: 'PFE-969 Lattice Core', icon: Cpu },
   ];

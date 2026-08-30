@@ -5,7 +5,7 @@ use tokio::runtime::Runtime;
 use iori_the_apacher::{
     adapters::db_adapter::SqliteStorageAdapter,
     application::service::ApplicationService,
-    cli::parser::{CliArgs, Commands, TunnelAction, ForensicAction, CryptoAction, ServerAction},
+    cli::parser::{CliArgs, Commands, TunnelAction, CryptoAction, ServerAction},
     cli::shell,
     domain::crypto_config::{DomesticAlgorithm, QuantumAlgorithm},
     domain::routing::{NetworkProtocol, CryptoRequirement},
@@ -52,38 +52,7 @@ fn main() -> Result<(), String> {
                 Ok::<(), String>(())
             })?;
         }
-        Commands::Forensic { action } => {
-            rt.block_on(async {
-                match action {
-                    ForensicAction::Track { ip, user_agent, hardware, geo } => {
-                        let tele = service.record_forensic(ip, user_agent, hardware, geo).await?;
-                        println!("Forensic Telemetry Recorded: TrackingID={}, IP={}, RiskScore={}, AnomalyFlags={:?}", tele.tracking_id, tele.source_ip, tele.risk_score, tele.anomaly_flags);
-                    }
-                    ForensicAction::List => {
-                        let teles = service.list_forensics().await?;
-                        println!("Recorded Forensic Telemetries ({})", teles.len());
-                        for ft in teles {
-                            println!("- [{}] IP: {} | Risk: {}/100 | Flags: {:?} | Geo: {}", ft.tracking_id, ft.source_ip, ft.risk_score, ft.anomaly_flags, ft.geo_location);
-                        }
-                    }
-                    ForensicAction::Get { id } => {
-                        match service.get_forensic(&id).await? {
-                            Some(ft) => println!("Forensic Telemetry Details: ID={}, IP={}, RiskScore={}, Flags={:?}, Geo={}, Timestamp={}", ft.tracking_id, ft.source_ip, ft.risk_score, ft.anomaly_flags, ft.geo_location, ft.timestamp),
-                            None => println!("Forensic telemetry with ID {} not found", id),
-                        }
-                    }
-                    ForensicAction::Update { id, ip, user_agent, hardware, geo } => {
-                        service.update_forensic(id.clone(), ip, user_agent, hardware, geo).await?;
-                        println!("Forensic Telemetry Updated Successfully: ID={}", id);
-                    }
-                    ForensicAction::Delete { id } => {
-                        service.delete_forensic(id.clone()).await?;
-                        println!("Forensic Telemetry Deleted Successfully: ID={}", id);
-                    }
-                }
-                Ok::<(), String>(())
-            })?;
-        }
+
         Commands::Crypto { action } => {
             match action {
                 CryptoAction::Domestic { algorithm, key, message } => {
@@ -208,6 +177,13 @@ fn main() -> Result<(), String> {
         }
         Commands::Shell => {
             shell::run_interactive_shell(service, &rt)?;
+        }
+        Commands::Create { subdomain, port, protocol } => {
+            rt.block_on(async {
+                let session = service.create_tunnel(subdomain, port, protocol).await?;
+                println!("Tunnel Created Successfully: ID={}, Subdomain={}, Port={}", session.id, session.subdomain, session.target_port);
+                Ok::<(), String>(())
+            })?;
         }
     }
 

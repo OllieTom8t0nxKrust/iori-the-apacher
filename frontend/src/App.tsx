@@ -2,7 +2,6 @@ import { useState } from 'react';
 import { Sidebar } from './components/Sidebar';
 import { DashboardOverview } from './components/DashboardOverview';
 import { TunnelManager } from './components/TunnelManager';
-import { ForensicTracker } from './components/ForensicTracker';
 import { CryptoSubmenus } from './components/CryptoSubmenus';
 import { Pfe969Monitor } from './components/Pfe969Monitor';
 
@@ -15,8 +14,6 @@ export function App() {
         return <DashboardOverview />;
       case 'tunnels':
         return <TunnelManager />;
-      case 'forensic':
-        return <ForensicTracker />;
       case 'crypto-vault':
         return <CryptoSubmenus />;
       case 'pfe969':

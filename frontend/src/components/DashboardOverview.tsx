@@ -1,10 +1,10 @@
 import React from 'react';
-import { Network, ShieldAlert, Lock, Atom, ArrowUpRight, Activity } from 'lucide-react';
+import { Network, Lock, Atom, ArrowUpRight, Activity, ShieldCheck } from 'lucide-react';
 
 export const DashboardOverview: React.FC = () => {
   const stats = [
     { label: 'Active Tunnels', value: '4', change: '+100%', icon: Network, color: 'text-blue-400', bg: 'bg-blue-500/10' },
-    { label: 'Forensic Hits', value: '1,284', change: '+12.4%', icon: ShieldAlert, color: 'text-amber-400', bg: 'bg-amber-500/10' },
+    { label: 'Secured Vaults', value: '18', change: '+12.4%', icon: ShieldCheck, color: 'text-amber-400', bg: 'bg-amber-500/10' },
     { label: 'Domestic Ciphers', value: 'AES / ChaCha', change: 'Active', icon: Lock, color: 'text-emerald-400', bg: 'bg-emerald-500/10' },
     { label: 'Quantum PFE-969', value: 'Secured', change: '100% PQC', icon: Atom, color: 'text-purple-400', bg: 'bg-purple-500/10' },
   ];
@@ -14,7 +14,7 @@ export const DashboardOverview: React.FC = () => {
       <div className="flex justify-between items-center">
         <div>
           <h2 className="text-2xl font-bold text-white tracking-tight">System Dashboard</h2>
-          <p className="text-sm text-gray-400">Overview of active tunnels, forensic telemetry, and cryptographic states.</p>
+          <p className="text-sm text-gray-400">Overview of active tunnels, cryptographic vault records, and routing states.</p>
         </div>
         <div className="flex items-center space-x-2 bg-emerald-500/10 border border-emerald-500/30 text-emerald-400 px-3 py-1.5 rounded-xl text-xs font-medium">
           <span className="w-2 h-2 rounded-full bg-emerald-400 animate-pulse"></span>

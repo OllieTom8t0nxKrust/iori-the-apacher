@@ -1,7 +1,6 @@
 use iori_the_apacher::domain::pfe969::Pfe969Cipher;
 use iori_the_apacher::domain::crypto_config::QuantumAlgorithm;
 use iori_the_apacher::domain::routing::{NetworkProtocol, CryptoRequirement};
-use iori_the_apacher::domain::forensic::ForensicTelemetry;
 use iori_the_apacher::application::service::ApplicationService;
 use iori_the_apacher::adapters::db_adapter::SqliteStorageAdapter;
 use std::sync::Arc;
@@ -60,24 +59,4 @@ async fn test_server_launch_crypto_verification_enforcement() {
     assert_eq!(launched.multi_hop_nodes.len(), 2);
 }
 
-#[test]
-fn test_operational_forensic_telemetry_analytics() {
-    // Bot / Crawler detection
-    let tele_bot = ForensicTelemetry::new(
-        "203.0.113.50".to_string(),
-        "Googlebot/2.1 (+http://www.google.com/bot.html)".to_string(),
-        "x86_64-linux".to_string(),
-        "Mountain View, US".to_string(),
-    );
-    assert!(tele_bot.risk_score > 40);
-    assert!(tele_bot.anomaly_flags.contains(&"Automated Bot / Crawler Detected".to_string()));
 
-    // Tor exit node detection
-    let tele_tor = ForensicTelemetry::new(
-        "185.220.101.5".to_string(),
-        "Mozilla/5.0 (Windows NT 10.0; Tor Browser)".to_string(),
-        "arm64-android".to_string(),
-        "Zurich, CH".to_string(),
-    );
-    assert!(tele_tor.risk_score > 60);
-}
