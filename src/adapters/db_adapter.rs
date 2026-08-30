@@ -3,7 +3,6 @@ use rusqlite::{Connection, params, OptionalExtension};
 use std::sync::{Arc, Mutex};
 use crate::ports::storage_port::StoragePort;
 use crate::domain::tunnel::TunnelSession;
-use crate::domain::forensic::ForensicTelemetry;
 use crate::domain::crypto_vault::CryptoVaultRecord;
 use crate::domain::routing::{ServerLaunchConfig, NetworkProtocol, CryptoRequirement};
 
@@ -23,20 +22,6 @@ impl SqliteStorageAdapter {
                 protocol TEXT NOT NULL,
                 active BOOLEAN NOT NULL,
                 created_at TEXT NOT NULL
-            )",
-            [],
-        ).map_err(|e| e.to_string())?;
-
-        conn.execute(
-            "CREATE TABLE IF NOT EXISTS forensics (
-                tracking_id TEXT PRIMARY KEY,
-                source_ip TEXT NOT NULL,
-                user_agent TEXT NOT NULL,
-                hardware_fingerprint TEXT NOT NULL,
-                geo_location TEXT NOT NULL,
-                risk_score INTEGER NOT NULL,
-                anomaly_flags TEXT NOT NULL,
-                timestamp TEXT NOT NULL
             )",
             [],
         ).map_err(|e| e.to_string())?;
@@ -140,83 +125,6 @@ impl StoragePort for SqliteStorageAdapter {
         let rows = conn.execute("DELETE FROM tunnels WHERE id = ?1", params![id]).map_err(|e| e.to_string())?;
         if rows == 0 {
             return Err(format!("Tunnel with ID {} not found", id));
-        }
-        Ok(())
-    }
-
-    async fn save_forensic(&self, telemetry: &ForensicTelemetry) -> Result<(), String> {
-        let conn = self.connection.lock().map_err(|e| e.to_string())?;
-        let flags_json = serde_json::to_string(&telemetry.anomaly_flags).unwrap_or_default();
-        conn.execute(
-            "INSERT OR REPLACE INTO forensics (tracking_id, source_ip, user_agent, hardware_fingerprint, geo_location, risk_score, anomaly_flags, timestamp) VALUES (?1, ?2, ?3, ?4, ?5, ?6, ?7, ?8)",
-            params![telemetry.tracking_id, telemetry.source_ip, telemetry.user_agent, telemetry.hardware_fingerprint, telemetry.geo_location, telemetry.risk_score, flags_json, telemetry.timestamp],
-        ).map_err(|e| e.to_string())?;
-        Ok(())
-    }
-
-    async fn get_forensics(&self) -> Result<Vec<ForensicTelemetry>, String> {
-        let conn = self.connection.lock().map_err(|e| e.to_string())?;
-        let mut stmt = conn.prepare("SELECT tracking_id, source_ip, user_agent, hardware_fingerprint, geo_location, risk_score, anomaly_flags, timestamp FROM forensics").map_err(|e| e.to_string())?;
-        let forensic_iter = stmt.query_map([], |row| {
-            let flags_str: String = row.get(6)?;
-            let anomaly_flags: Vec<String> = serde_json::from_str(&flags_str).unwrap_or_default();
-            Ok(ForensicTelemetry {
-                tracking_id: row.get(0)?,
-                source_ip: row.get(1)?,
-                user_agent: row.get(2)?,
-                hardware_fingerprint: row.get(3)?,
-                geo_location: row.get(4)?,
-                risk_score: row.get(5)?,
-                anomaly_flags,
-                timestamp: row.get(7)?,
-            })
-        }).map_err(|e| e.to_string())?;
-
-        let mut forensics = Vec::new();
-        for telemetry in forensic_iter {
-            forensics.push(telemetry.map_err(|e| e.to_string())?);
-        }
-        Ok(forensics)
-    }
-
-    async fn get_forensic(&self, tracking_id: &str) -> Result<Option<ForensicTelemetry>, String> {
-        let conn = self.connection.lock().map_err(|e| e.to_string())?;
-        let mut stmt = conn.prepare("SELECT tracking_id, source_ip, user_agent, hardware_fingerprint, geo_location, risk_score, anomaly_flags, timestamp FROM forensics WHERE tracking_id = ?1").map_err(|e| e.to_string())?;
-        let tel = stmt.query_row(params![tracking_id], |row| {
-            let flags_str: String = row.get(6)?;
-            let anomaly_flags: Vec<String> = serde_json::from_str(&flags_str).unwrap_or_default();
-            Ok(ForensicTelemetry {
-                tracking_id: row.get(0)?,
-                source_ip: row.get(1)?,
-                user_agent: row.get(2)?,
-                hardware_fingerprint: row.get(3)?,
-                geo_location: row.get(4)?,
-                risk_score: row.get(5)?,
-                anomaly_flags,
-                timestamp: row.get(7)?,
-            })
-        }).optional().map_err(|e| e.to_string())?;
-        Ok(tel)
-    }
-
-    async fn update_forensic(&self, telemetry: &ForensicTelemetry) -> Result<(), String> {
-        let conn = self.connection.lock().map_err(|e| e.to_string())?;
-        let flags_json = serde_json::to_string(&telemetry.anomaly_flags).unwrap_or_default();
-        let rows = conn.execute(
-            "UPDATE forensics SET source_ip = ?1, user_agent = ?2, hardware_fingerprint = ?3, geo_location = ?4, risk_score = ?5, anomaly_flags = ?6 WHERE tracking_id = ?7",
-            params![telemetry.source_ip, telemetry.user_agent, telemetry.hardware_fingerprint, telemetry.geo_location, telemetry.risk_score, flags_json, telemetry.tracking_id],
-        ).map_err(|e| e.to_string())?;
-        if rows == 0 {
-            return Err(format!("Forensic telemetry with ID {} not found", telemetry.tracking_id));
-        }
-        Ok(())
-    }
-
-    async fn delete_forensic(&self, tracking_id: &str) -> Result<(), String> {
-        let conn = self.connection.lock().map_err(|e| e.to_string())?;
-        let rows = conn.execute("DELETE FROM forensics WHERE tracking_id = ?1", params![tracking_id]).map_err(|e| e.to_string())?;
-        if rows == 0 {
-            return Err(format!("Forensic telemetry with ID {} not found", tracking_id));
         }
         Ok(())
     }
