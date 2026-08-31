@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { LayoutDashboard, Network, Server, Lock, Cpu, Terminal, ChevronLeft, ChevronRight } from 'lucide-react';
+import { LayoutDashboard, Network, Server, Lock, Cpu, Terminal } from 'lucide-react';
 import { CabocloIoriLogo } from './CabocloIoriLogo';
 
 interface SidebarProps {
