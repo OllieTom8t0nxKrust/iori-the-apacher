@@ -30,7 +30,7 @@ export function App() {
   };
 
   return (
-    <div className="flex min-h-screen bg-darkbase">
+    <div className="flex flex-col md:flex-row min-h-screen bg-darkbase">
       <Sidebar activeTab={activeTab} setActiveTab={setActiveTab} />
       <main className="flex-1 p-8 overflow-y-auto">
         <div className="max-w-7xl mx-auto">
