@@ -41,11 +41,11 @@ export const CabocloIoriLogo: React.FC<{ collapsed?: boolean }> = ({ collapsed =
           : 'border-amber-500/50 shadow-lg shadow-amber-600/30'
       }`}>
         {collapsed ? (
-            <svg viewBox="0 0 24 24" className="w-8 h-8 text-white">
-                <path fill="currentColor" d="M12 2C8.69 2 6 4.69 6 8c0 2.13 1.15 4 2.87 5.04L8 16c0 1.1.9 2 2 2h4c1.1 0 2-.9 2-2l-.87-2.96C16.85 12 18 10.13 18 8c0-3.31-2.69-6-6-6zm0 10c-2.21 0-4-1.79-4-4s1.79-4 4-4 4 1.79 4 4-1.79 4-4 4z"/>
-                <circle cx="9.5" cy="8" r="1" className="fill-red-500 animate-pulse" />
-                <circle cx="14.5" cy="8" r="1" className="fill-red-500 animate-pulse" />
-            </svg>
+          <img
+            src="/caboclo-iori-skull.png"
+            alt="Caboclo-Iori Skull Logo"
+            className="w-full h-full object-contain"
+          />
         ) : (
         <img
           src="/caboclo-iori.jpg"
