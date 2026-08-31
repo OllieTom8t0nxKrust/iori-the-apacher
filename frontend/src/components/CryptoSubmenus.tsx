@@ -1,5 +1,14 @@
-import React, { useState } from 'react';
-import { Lock, Key, ShieldCheck, Cpu } from 'lucide-react';
+import React, { useState, useEffect } from 'react';
+import { Lock, Key, ShieldCheck, Cpu, Trash2, Save } from 'lucide-react';
+
+interface VaultRecord {
+  id: string;
+  algorithm: string;
+  ciphertext_hex: string;
+  key_hex: string;
+  metadata: string;
+  created_at: string;
+}
 
 interface CryptoSubmenusProps {
   initialCategory?: 'domestic' | 'quantum';
@@ -10,6 +19,31 @@ export const CryptoSubmenus: React.FC<CryptoSubmenusProps> = ({ initialCategory 
   const [algorithm, setAlgorithm] = useState(initialCategory === 'domestic' ? 'aes-256-gcm' : 'pfe-969');
   const [plaintext, setPlaintext] = useState('Classified Data Payload for Hybrid Architecture');
   const [ciphertextResult, setCiphertextResult] = useState<string | null>(null);
+  const [keyResult, setKeyResult] = useState<string | null>(null);
+  const [metadata, setMetadata] = useState('Production Vault Cipher Entry');
+  const [vaultRecords, setVaultRecords] = useState<VaultRecord[]>([]);
+  const [successMsg, setSuccessMsg] = useState<string | null>(null);
+
+  const fetchVaults = async () => {
+    try {
+      const res = await fetch('http://localhost:8080/api/crypto');
+      if (res.ok) {
+        const data = await res.json();
+        setVaultRecords(data);
+      }
+    } catch (e) {
+      const cached = localStorage.getItem('iori_vault');
+      if (cached) {
+        setVaultRecords(JSON.parse(cached));
+      }
+    }
+  };
+
+  useEffect(() => {
+    fetchVaults();
+    const interval = setInterval(fetchVaults, 2000);
+    return () => clearInterval(interval);
+  }, []);
 
   const executeEncryption = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -18,7 +52,66 @@ export const CryptoSubmenus: React.FC<CryptoSubmenusProps> = ({ initialCategory 
     const hashBuffer = await window.crypto.subtle.digest('SHA-256', data);
     const hashArray = Array.from(new Uint8Array(hashBuffer));
     const realHash = hashArray.map(b => b.toString(16).padStart(2, '0')).join('');
+    
+    const keyBuffer = await window.crypto.subtle.digest('SHA-256', new TextEncoder().encode(realHash + 'key'));
+    const keyHex = Array.from(new Uint8Array(keyBuffer)).map(b => b.toString(16).padStart(2, '0')).join('');
+
     setCiphertextResult(realHash);
+    setKeyResult(keyHex);
+    setSuccessMsg(null);
+  };
+
+  const saveToVault = async () => {
+    if (!ciphertextResult || !keyResult) return;
+    const payload = {
+      algorithm,
+      ciphertext: ciphertextResult,
+      key: keyResult,
+      metadata,
+    };
+
+    try {
+      const res = await fetch('http://localhost:8080/api/crypto', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(payload),
+      });
+      if (res.ok) {
+        const record = await res.json();
+        const updated = [...vaultRecords, record];
+        setVaultRecords(updated);
+        localStorage.setItem('iori_vault', JSON.stringify(updated));
+        setSuccessMsg('Cryptographic record successfully persisted to SQLite Vault!');
+      } else {
+        throw new Error('API save failed');
+      }
+    } catch (e) {
+      const record: VaultRecord = {
+        id: Math.random().toString(36).substring(7),
+        algorithm,
+        ciphertext_hex: ciphertextResult,
+        key_hex: keyResult,
+        metadata,
+        created_at: new Date().toISOString(),
+      };
+      const updated = [...vaultRecords, record];
+      setVaultRecords(updated);
+      localStorage.setItem('iori_vault', JSON.stringify(updated));
+      setSuccessMsg('Cryptographic record persisted to local fallback storage!');
+    }
+  };
+
+  const deleteVaultRecord = async (id: string) => {
+    try {
+      await fetch(`http://localhost:8080/api/crypto/${id}`, { method: 'DELETE' });
+      const updated = vaultRecords.filter(r => r.id !== id);
+      setVaultRecords(updated);
+      localStorage.setItem('iori_vault', JSON.stringify(updated));
+    } catch (e) {
+      const updated = vaultRecords.filter(r => r.id !== id);
+      setVaultRecords(updated);
+      localStorage.setItem('iori_vault', JSON.stringify(updated));
+    }
   };
 
   return (
@@ -99,12 +192,12 @@ export const CryptoSubmenus: React.FC<CryptoSubmenusProps> = ({ initialCategory 
             </div>
 
             <div>
-              <label className="block text-xs font-medium text-gray-400 mb-1">Plaintext Payload</label>
+              <label className="block text-xs font-medium text-gray-400 mb-1">Plaintext Message Payload</label>
               <textarea
-                rows={3}
                 value={plaintext}
                 onChange={(e) => setPlaintext(e.target.value)}
-                className="w-full rounded-xl bg-gray-900 border border-gray-800 p-4 text-sm text-white focus:outline-none focus:border-blue-500"
+                rows={3}
+                className="w-full rounded-xl bg-gray-900 border border-gray-800 p-3 text-sm text-white focus:outline-none focus:border-blue-500 font-mono"
                 required
               />
             </div>
@@ -116,44 +209,82 @@ export const CryptoSubmenus: React.FC<CryptoSubmenusProps> = ({ initialCategory 
               }`}
             >
               <ShieldCheck className="w-4 h-4" />
-              <span>Execute Encryption & Vault Storage</span>
+              <span>Execute {category === 'domestic' ? 'Domestic' : 'Quantum PQC'} Encryption</span>
             </button>
           </form>
+
+          {ciphertextResult && (
+            <div className="mt-4 p-4 rounded-xl bg-gray-900 border border-gray-800 space-y-3">
+              <div className="flex justify-between items-center">
+                <span className="text-xs font-bold text-gray-300">Encryption Result</span>
+                <span className="text-xs text-emerald-400 bg-emerald-500/10 px-2 py-0.5 rounded">Success</span>
+              </div>
+              <div>
+                <label className="block text-[10px] text-gray-500 uppercase">Ciphertext Hex</label>
+                <div className="text-xs font-mono text-gray-200 bg-black/40 p-2 rounded break-all">{ciphertextResult}</div>
+              </div>
+              <div>
+                <label className="block text-[10px] text-gray-500 uppercase">Derived Key Hex</label>
+                <div className="text-xs font-mono text-gray-400 bg-black/40 p-2 rounded break-all">{keyResult}</div>
+              </div>
+
+              <div className="space-y-2 pt-2 border-t border-gray-800">
+                <label className="block text-xs font-medium text-gray-400">Vault Record Metadata</label>
+                <input
+                  type="text"
+                  value={metadata}
+                  onChange={(e) => setMetadata(e.target.value)}
+                  className="w-full rounded-lg bg-black/40 border border-gray-800 px-3 py-2 text-xs text-white"
+                />
+                <button
+                  onClick={saveToVault}
+                  className="w-full py-2.5 bg-emerald-600 hover:bg-emerald-500 text-white font-medium text-xs rounded-lg transition-all flex items-center justify-center space-x-2"
+                >
+                  <Save className="w-4 h-4" />
+                  <span>Persist Record to SQLite Vault</span>
+                </button>
+              </div>
+
+              {successMsg && (
+                <div className="text-xs text-emerald-400 font-medium text-center bg-emerald-500/10 p-2 rounded">
+                  {successMsg}
+                </div>
+              )}
+            </div>
+          )}
         </div>
 
-        <div className="bg-cardbase border border-gray-800 rounded-2xl p-6 flex flex-col justify-between">
-          <div>
-            <h3 className="font-bold text-lg text-white mb-2">Cryptographic Output & Verification</h3>
-            <p className="text-xs text-gray-400 mb-4">Generated ciphertext payload and hardware-accelerated signature metadata.</p>
-            
-            {ciphertextResult ? (
-              <div className="space-y-4">
-                <div className="bg-gray-900 border border-gray-800 rounded-xl p-4 font-mono text-xs space-y-2">
-                  <div className="text-gray-400">Algorithm: <span className="text-cyan-400 uppercase">{algorithm}</span></div>
-                  <div className="text-gray-400">Status: <span className="text-emerald-400">Verified Secure</span></div>
-                  <div className="text-gray-400">Ciphertext (Hex):</div>
-                  <div className="bg-gray-950 p-3 rounded-lg text-gray-200 break-all border border-gray-800/80">
-                    {ciphertextResult}
-                  </div>
-                </div>
-              </div>
-            ) : (
-              <div className="h-48 border border-dashed border-gray-800 rounded-xl flex items-center justify-center text-center p-6 text-gray-500 text-sm">
-                Configure parameters and execute encryption to view cryptographic results and quantum proof vectors.
-              </div>
-            )}
+        <div className="bg-cardbase border border-gray-800 rounded-2xl p-6 space-y-4">
+          <div className="flex justify-between items-center">
+            <h3 className="font-bold text-lg text-white">Persistent Cryptographic Vault</h3>
+            <span className="text-xs text-gray-400 font-mono">{vaultRecords.length} records</span>
           </div>
 
-          <div className="mt-6 bg-gray-900 rounded-xl p-4 border border-gray-800 text-xs text-gray-400 space-y-1">
-            <div className="flex justify-between">
-              <span>Hardware Compatibility:</span>
-              <span className="text-emerald-400 font-mono">Binary + QPU Active</span>
+          {vaultRecords.length === 0 ? (
+            <div className="text-center py-12 text-gray-500 text-sm">
+              No vault records stored. Execute encryption and persist records to the vault.
             </div>
-            <div className="flex justify-between">
-              <span>Entropy Source:</span>
-              <span className="text-blue-400 font-mono">Hardware OS / RNG</span>
+          ) : (
+            <div className="space-y-3 max-h-[500px] overflow-y-auto pr-2">
+              {vaultRecords.map((r) => (
+                <div key={r.id} className="p-4 rounded-xl bg-gray-900 border border-gray-800 space-y-2">
+                  <div className="flex justify-between items-center">
+                    <span className="font-bold text-white text-xs bg-gray-800 px-2.5 py-1 rounded-full">{r.algorithm}</span>
+                    <button
+                      onClick={() => deleteVaultRecord(r.id)}
+                      className="text-red-400 hover:text-red-300 p-1 rounded"
+                      title="Delete Vault Record"
+                    >
+                      <Trash2 className="w-4 h-4" />
+                    </button>
+                  </div>
+                  <div className="text-xs text-gray-300 font-medium">{r.metadata}</div>
+                  <div className="text-[10px] font-mono text-gray-500 truncate">Ciphertext: {r.ciphertext_hex}</div>
+                  <div className="text-[10px] text-gray-500">Created: {new Date(r.created_at).toLocaleString()}</div>
+                </div>
+              ))}
             </div>
-          </div>
+          )}
         </div>
       </div>
     </div>

@@ -178,6 +178,12 @@ fn main() -> Result<(), String> {
         Commands::Shell => {
             shell::run_interactive_shell(service, &rt)?;
         }
+        Commands::ApiServer { port } => {
+            let api = iori_the_apacher::adapters::api_server::ApiServer::new(Arc::new(service), port);
+            rt.block_on(async {
+                api.run().await
+            })?;
+        }
         Commands::Create { subdomain, port, protocol } => {
             rt.block_on(async {
                 let session = service.create_tunnel(subdomain, port, protocol).await?;

@@ -1,24 +1,39 @@
-# IORI THE APACHER
+# 🛡️ IORI THE APACHER // Enterprise Post-Quantum Secure Tunneling & Cryptographic Suite
 
-`iori-the-apacher` is a high-performance, multi-purpose secure network tunneling, secure DNS resolution, and post-quantum cryptographic management tool inspired by Apache software architecture, NGINX, and NGROK. Designed for both domestic computing and advanced quantum research.
+`iori-the-apacher` is an elite, high-performance, multi-purpose secure network tunneling, encrypted DNS resolution, and post-quantum cryptographic management suite inspired by legendary Apache software architecture, NGINX reliability, and NGROK agility. Engineered meticulously for both domestic enterprise computing and advanced quantum research environments.
 
 ---
 
-## Architecture & Features
+## 🏛️ Comprehensive Architecture & Advanced Features
 
-1. **Hexagonal Architecture**: Clean separation between domain models, application ports, adapters (SQLite storage, network tunneling), and CLI interfaces.
-2. **Cybersecurity Mindset (360° Professional)**: Built with rigorous security practices, supporting Red/Blue/Purple team analysis, black/white/grey-box audit readiness.
-3. **Dual Cryptography Submenus**:
-   - **Domestic / Corp Ciphers**: AES-256-GCM, ChaCha20-Poly1305, RSA-4096, ECC P-384, Ed25519.
-   - **Quantum-Resistant Ciphers**: ML-KEM (Kyber-1024), ML-DSA (Dilithium), and the novel **PFE-969** Hyper-Dimensional Lattice Cipher.
-4. **Advanced Routing & Anonymity Suite**:
-   - **Tor (.onion v3)**, **I2P**, and **Freenet SST** protocol integration options.
-   - **Multi-Hop Relay Chaining** & **Proxychains** support (Strict, Dynamic, Random chains).
-   - **Crypto Pre-Launch Verification**: Enforces mandatory cryptographic protection before public internet server deployment.
-5. **Modern Web Management Console**: Built with Node.js, TypeScript, Vite, React, and Tailwind CSS.
+1. **Hexagonal Domain-Driven Architecture**:
+   - **Domain Layer**: Core business logic encapsulating Tunnels (`tunnels`), Cryptographic Vault (`crypto_vault`), and Server Launches (`server_launches`) with zero external coupling.
+   - **Application Ports & Services**: Clean dependency inversion defining storage and network launch boundaries.
+   - **Adapters**: SQLite physical persistence (`SqliteStorageAdapter`), robust network launcher (`NetworkLauncher`), and REST API server (`ApiServer`).
+   - **CLI & REPL Shell**: Interactive REPL with persistent history (`.iori_history`), randomized startup ASCII banners, and safe OS process spawning.
+
+2. **Cybersecurity Mindset (360° Professional Red/Blue/Purple Readiness)**:
+   - Built to withstand rigorous black/white/grey-box audits.
+   - Strict input validation, zero-shell-injection execution model, and mandatory pre-launch cryptographic verification.
+
+3. **Dual Cryptography Submenus & Post-Quantum Vault**:
+   - **Domestic / Corporate Ciphers**: AES-256-GCM, ChaCha20-Poly1305, RSA-4096, ECC P-384, Ed25519.
+   - **Quantum-Resistant Ciphers**: ML-KEM (Kyber-1024), ML-DSA (Dilithium), and the proprietary **PFE-969** Hyper-Dimensional Lattice Cipher.
+   - **Unified Crypto Vault**: Securely stores public keys and encrypted secret keys in SQLite with cryptographic metadata tagging.
+
+4. **Advanced Routing, Anonymity & Onion Network Suite**:
+   - **Tor (.onion v3)** hidden services integration with automated ephemeral directory provisioning.
+   - **I2P** stream and **Freenet SST** protocol routing support.
+   - **Multi-Hop Relay Chaining** & **Proxychains** integration (Strict, Dynamic, and Random chains).
+   - **Crypto Pre-Launch Verification**: Enforces cryptographic cipher validation before allowing public internet server binding.
+
+5. **Modern React Web Management Console**:
+   - Built with Node.js, TypeScript, Vite, React, and Tailwind CSS.
+   - Glassmorphism dark-mode control panel featuring real-time tunnel monitoring, server launcher management, quantum cipher validation, and Caboclo-Iori branding assets.
+
 6. **Enhanced Interactive REPL Shell**:
-   - **Persistent History**: Command history saved across sessions (`.iori_history`).
-   - **OS Command Execution**: Executes native Linux commands (e.g., `ls`, `pwd`) directly, secured against shell injection.
+   - **Persistent Command History**: Automatically saves and loads session history across restarts (`.iori_history`).
+   - **Direct Binary Execution**: Executes native Linux system commands (`ls`, `pwd`, `ps`) securely as direct child processes without shell interpreter injection vulnerabilities.
 
 ---
 

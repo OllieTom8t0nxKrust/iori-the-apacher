@@ -1,5 +1,5 @@
 import React from 'react';
-import { LayoutDashboard, Network, ShieldAlert, Lock, Cpu } from 'lucide-react';
+import { LayoutDashboard, Network, Server, Lock, Cpu, Terminal } from 'lucide-react';
 import { CabocloIoriLogo } from './CabocloIoriLogo';
 
 interface SidebarProps {
@@ -11,8 +11,10 @@ export const Sidebar: React.FC<SidebarProps> = ({ activeTab, setActiveTab }) => 
   const menuItems = [
     { id: 'dashboard', label: 'Dashboard', icon: LayoutDashboard },
     { id: 'tunnels', label: 'Tunnels & DNS', icon: Network },
+    { id: 'servers', label: 'Secure Servers', icon: Server },
     { id: 'crypto-vault', label: 'Crypto Vault', icon: Lock },
     { id: 'pfe969', label: 'PFE-969 Lattice Core', icon: Cpu },
+    { id: 'terminal', label: 'CLI Terminal', icon: Terminal },
   ];
 
   return (
@@ -39,7 +41,7 @@ export const Sidebar: React.FC<SidebarProps> = ({ activeTab, setActiveTab }) => 
                   : 'text-gray-400 hover:text-gray-200 hover:bg-gray-800/60'
               }`}
             >
-              <Icon className={`w-5 h-5 ${isActive ? 'text-white' : 'text-gray-400'}`} />
+              <Icon className="w-5 h-5" />
               <span>{item.label}</span>
             </button>
           );
@@ -47,15 +49,12 @@ export const Sidebar: React.FC<SidebarProps> = ({ activeTab, setActiveTab }) => 
       </nav>
 
       <div className="p-4 border-t border-gray-800">
-        <div className="bg-gray-900/80 rounded-xl p-3 border border-gray-800 text-xs text-gray-400 space-y-1">
-          <div className="flex justify-between">
-            <span>Architecture:</span>
-            <span className="text-cyan-400 font-mono">Binary / QPU</span>
+        <div className="bg-gray-900 border border-gray-800 rounded-xl p-3.5 space-y-2">
+          <div className="flex items-center justify-between">
+            <span className="text-xs font-semibold text-gray-300">SQLite Storage Sync</span>
+            <span className="w-2 h-2 rounded-full bg-emerald-400 animate-pulse"></span>
           </div>
-          <div className="flex justify-between">
-            <span>Security Lvl:</span>
-            <span className="text-emerald-400 font-mono">360° PQC</span>
-          </div>
+          <p className="text-[11px] text-gray-500">Connected to iori_apacher.db & API server</p>
         </div>
       </div>
     </aside>

@@ -43,6 +43,11 @@ pub enum Commands {
     },
     #[command(about = "Launch the interactive REPL shell for continuous command execution with active background state")]
     Shell,
+    #[command(about = "Start the HTTP JSON API server for frontend live synchronization and management")]
+    ApiServer {
+        #[arg(short, long, default_value = "8080", help = "Port to listen on for HTTP API requests")]
+        port: u16,
+    },
 }
 
 #[derive(Subcommand, Debug)]
