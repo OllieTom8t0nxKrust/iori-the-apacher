@@ -30,6 +30,7 @@
 5. **Modern React Web Management Console**:
    - Built with Node.js, TypeScript, Vite, React, and Tailwind CSS.
    - Glassmorphism dark-mode control panel featuring real-time tunnel monitoring, server launcher management, quantum cipher validation, and Caboclo-Iori branding assets.
+   - **Responsive UX**: Fully responsive sidebar with collapsible design featuring an interactive skull transformation logo, optimized for desktop and mobile devices.
 
 6. **Enhanced Interactive REPL Shell**:
    - **Persistent Command History**: Automatically saves and loads session history across restarts (`.iori_history`).

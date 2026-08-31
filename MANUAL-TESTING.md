@@ -36,6 +36,15 @@ This document outlines manual testing procedures for features that require exter
 3. Exit the shell (`exit`).
 4. Re-launch the shell and press the `Up` arrow key to verify persistent history retrieval from `.iori_history`.
 
-## 5. Security & Command Injection Prevention Testing
-1. Test OS execution boundary limits:
-   - Attempt: `ls | grep test` (Verify pipe character is treated as a literal argument or rejected cleanly, proving absence of shell injection vulnerability).
+## 6. Frontend UI Responsiveness & Interactive Logo
+1. Navigate to the web management console.
+2. Verify the sidebar is fully expanded.
+3. Click the Caboclo-Iori logo:
+   - Confirm the sidebar collapses to a narrow width.
+   - Confirm the logo transforms into a skull icon with glowing red eyes.
+4. Click the skull logo again:
+   - Confirm the sidebar expands to full width.
+   - Confirm the logo returns to the original photo.
+5. Resize the browser window to mobile dimensions (e.g., < 768px):
+   - Confirm the layout remains usable and fits within the viewport.
+

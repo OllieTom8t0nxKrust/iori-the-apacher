@@ -5,6 +5,12 @@ All notable changes to the master codebase (backend Rust core and frontend web p
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to Semantic Versioning.
 
+## [1.6.0] - 2026-08-31
+
+### Added (Frontend)
+- **Responsive UI & Sidebar Toggle**: Added sidebar collapsibility for improved screen real-estate management, optimized for all screen sizes including smartphones.
+- **Dynamic Logo Interaction**: Integrated interactive logo functionality where clicking the logo toggles sidebar state and visually transforms the logo into a white skull with glowing red eyes when collapsed.
+
 ## [1.5.0] - 2026-08-30
 
 ### Removed (Backend & Frontend)

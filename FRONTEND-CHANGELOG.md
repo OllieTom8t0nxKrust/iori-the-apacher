@@ -2,6 +2,13 @@
 
 All notable changes to the React/TypeScript/Vite web management console panel are documented in this file.
 
+## [1.2.0] - 2026-08-31
+
+### Added
+- **Collapsible Sidebar**: Implemented sidebar collapsing/expanding functionality.
+- **Logo Transformation**: Logo now acts as the toggle button. When collapsed, it transforms into a white skull with glowing red eyes.
+- **Responsiveness**: Improved UI responsiveness to ensure a seamless experience on all smartphone screen sizes.
+
 ## [1.1.0] - 2026-08-30
 
 ### Removed
