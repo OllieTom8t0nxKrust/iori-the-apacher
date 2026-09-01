@@ -7,6 +7,9 @@ and this project adheres to Semantic Versioning.
 
 ## [1.6.2] - 2026-09-01
 
+### Fixed (Frontend)
+- **Logo Proportions**: Adjusted `CabocloIoriLogo` sizing (56px collapsed / 96px expanded) and sidebar container padding for improved visual hierarchy and UI consistency.
+
 ### Fixed (CLI)
 - **Prompt Consistency**: Updated interactive shell prompt from `iori-apacher>` to `iori-the-apacher>` for consistent project branding.
 

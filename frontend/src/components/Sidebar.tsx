@@ -20,14 +20,14 @@ export const Sidebar: React.FC<SidebarProps> = ({ activeTab, setActiveTab }) => 
 
   return (
     <aside className={`${collapsed ? 'w-20' : 'w-72'} bg-cardbase border-r border-gray-800 flex flex-col h-auto md:h-screen sticky top-0 transition-all duration-300`}>
-      <div className={`p-6 border-b border-gray-800 flex items-center ${collapsed ? 'justify-center' : 'space-x-3'}`}>
-        <button onClick={() => setCollapsed(!collapsed)} className="focus:outline-none">
+      <div className={`p-4 border-b border-gray-800 flex items-center ${collapsed ? 'justify-center p-2' : 'space-x-4'}`}>
+        <button onClick={() => setCollapsed(!collapsed)} className="focus:outline-none flex items-center justify-center shrink-0">
           <CabocloIoriLogo collapsed={collapsed} />
         </button>
         {!collapsed && (
-          <div>
-            <h1 className="font-bold text-lg tracking-tight text-white">IORI THE APACHER</h1>
-            <p className="text-xs text-amber-400/80 font-medium">Quantum & Forensic Console</p>
+          <div className="overflow-hidden">
+            <h1 className="font-bold text-base tracking-tight text-white truncate">IORI THE APACHER</h1>
+            <p className="text-[11px] text-amber-400/80 font-medium truncate">Quantum & Forensic Console</p>
           </div>
         )}
       </div>

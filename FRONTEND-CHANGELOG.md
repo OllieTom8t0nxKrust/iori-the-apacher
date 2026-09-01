@@ -2,6 +2,11 @@
 
 All notable changes to the React/TypeScript/Vite web management console panel are documented in this file.
 
+## [1.2.2] - 2026-09-01
+
+### Fixed & Refined
+- **Logo & Sidebar UI**: Adjusted `CabocloIoriLogo` sizing (56px collapsed / 96px expanded) and optimized sidebar container spacing and padding for improved visual hierarchy.
+
 ## [1.2.1] - 2026-09-01
 
 ### Fixed & Refined

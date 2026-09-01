@@ -33,12 +33,12 @@ export const CabocloIoriLogo: React.FC<{ collapsed?: boolean }> = ({ collapsed =
       )}
 
       {/* Logo Image Container */}
-      <div className={`relative w-12 h-12 rounded-2xl transition-all duration-700 flex items-center justify-center overflow-hidden border-2 ${
+      <div className={`relative ${collapsed ? 'w-14 h-14' : 'w-24 h-24'} rounded-xl transition-all duration-700 flex items-center justify-center overflow-hidden border-2 ${
         collapsed
-          ? 'bg-black border-white'
+          ? 'bg-black border-white shadow-md'
           : energized
-          ? 'border-cyan-400 shadow-[0_0_35px_rgba(6,182,212,0.9)] scale-110 brightness-125'
-          : 'border-amber-500/50 shadow-lg shadow-amber-600/30'
+          ? 'border-cyan-400 shadow-[0_0_35px_rgba(6,182,212,0.9)] scale-105 brightness-125'
+          : 'border-amber-500/60 shadow-md shadow-amber-600/30'
       }`}>
         {collapsed ? (
           <img
