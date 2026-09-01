@@ -2,6 +2,11 @@
 
 All notable changes to the React/TypeScript/Vite web management console panel are documented in this file.
 
+## [1.2.1] - 2026-09-01
+
+### Fixed & Refined
+- **Logo Optimization & Cleanup**: Processed and formatted logo assets (`caboclo-iori.jpg` and `caboclo-iori-skull.png`) to 1:1 square aspect ratio with entirely black backgrounds, centered indigenous figures, and removed the Gemini star watermark.
+
 ## [1.2.0] - 2026-08-31
 
 ### Added
