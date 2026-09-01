@@ -5,7 +5,7 @@ All notable changes to the backend Rust core engine, domain models, ports, adapt
 ## [1.5.1] - 2026-09-01
 
 ### Fixed (CLI REPL Shell)
-- **Curated ASCII Art Banner**: Replaced randomized startup banners with a single curated and corrected ASCII art banner featuring "IORI THE APACHER" with the letter `E` correctly included in `THE`.
+- **Curated ASCII Art Banner**: Replaced randomized startup banners with a single curated ASCII art banner featuring "IORI THE APACHER", correcting the letter `E` in `THE` to ensure a fully formed capital `E`.
 
 ## [1.5.0] - 2026-08-30
 

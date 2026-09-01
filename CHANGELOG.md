@@ -8,7 +8,7 @@ and this project adheres to Semantic Versioning.
 ## [1.6.3] - 2026-09-01
 
 ### Fixed & Refined (CLI & Frontend)
-- **Curated ASCII Art Banner**: Replaced randomized startup banners with a single curated and corrected ASCII art banner featuring "IORI THE APACHER" with the letter `E` correctly included in `THE`.
+- **Curated ASCII Art Banner**: Replaced randomized startup banners with a single curated ASCII art banner featuring "IORI THE APACHER", correcting the letter `E` in `THE` to ensure a fully formed capital `E` (fixing previous incomplete rendering resembling `THF`).
 - **Logo & Electric Animations**: Upgraded `CabocloIoriLogo` with interactive click-to-energize capabilities, persistent lightning flash effects across both expanded and collapsed modes, and refined sidebar branding hierarchy.
 
 ## [1.6.2] - 2026-09-01
