@@ -8,7 +8,7 @@ The `iori-the-apacher` interactive REPL shell is a high-performance, secure oper
 The shell automatically manages command history across sessions, storing entries in `.iori_history` within the project root directory. Use arrow keys (`Up` / `Down`) to navigate through previous commands.
 
 ### 2. Direct OS Command Execution
-Execute native Linux system binaries directly from the `iori-apacher>` prompt.
+Execute native Linux system binaries directly from the `iori-the-apacher>` prompt.
 
 *   **Supported Examples**:
     *   `ls -la` (List directory contents)

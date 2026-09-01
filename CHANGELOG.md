@@ -5,6 +5,11 @@ All notable changes to the master codebase (backend Rust core and frontend web p
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to Semantic Versioning.
 
+## [1.6.2] - 2026-09-01
+
+### Fixed (CLI)
+- **Prompt Consistency**: Updated interactive shell prompt from `iori-apacher>` to `iori-the-apacher>` for consistent project branding.
+
 ## [1.6.1] - 2026-09-01
 
 ### Fixed (Frontend)

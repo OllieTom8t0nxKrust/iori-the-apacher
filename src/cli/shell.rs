@@ -80,7 +80,7 @@ pub fn run_interactive_shell(service: ApplicationService, rt: &Runtime) -> Resul
     println!("Type 'help' for command list and interactive documentation.");
     
     loop {
-        let readline = rl.readline("iori-apacher> ");
+        let readline = rl.readline("iori-the-apacher> ");
         match readline {
             Ok(line) => {
                 let line_str = line.trim();

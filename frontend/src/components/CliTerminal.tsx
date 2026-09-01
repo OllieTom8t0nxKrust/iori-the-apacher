@@ -54,7 +54,7 @@ export const CliTerminal: React.FC = () => {
       <div className="bg-cardbase border border-gray-800 rounded-2xl p-6 space-y-4">
         <div className="flex items-center space-x-2 pb-3 border-b border-gray-800">
           <Terminal className="w-5 h-5 text-blue-400" />
-          <span className="font-mono text-sm text-white">iori-terminal@apacher-core:~</span>
+          <span className="font-mono text-sm text-white">iori-the-apacher&gt;</span>
         </div>
 
         <div className="space-y-4 max-h-[450px] overflow-y-auto pr-2 font-mono text-xs">
@@ -71,7 +71,7 @@ export const CliTerminal: React.FC = () => {
 
         <form onSubmit={runCommand} className="flex space-x-3 pt-2">
           <div className="flex-1 flex items-center rounded-xl bg-gray-900 border border-gray-800 px-4 py-2.5">
-            <span className="text-blue-400 font-mono text-sm mr-2">$</span>
+            <span className="text-blue-400 font-mono text-sm mr-2">iori-the-apacher&gt;</span>
             <input
               type="text"
               value={command}
