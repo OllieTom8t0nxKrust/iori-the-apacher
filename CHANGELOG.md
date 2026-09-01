@@ -5,6 +5,11 @@ All notable changes to the master codebase (backend Rust core and frontend web p
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to Semantic Versioning.
 
+## [1.6.1] - 2026-09-01
+
+### Fixed (Frontend)
+- **Logo Optimization & Cleanup**: Processed and formatted logo assets (`caboclo-iori.jpg` and `caboclo-iori-skull.png`) to 1:1 square aspect ratio with entirely black backgrounds, centered indigenous figures, and removed the Gemini star watermark.
+
 ## [1.6.0] - 2026-08-31
 
 ### Added (Frontend)
