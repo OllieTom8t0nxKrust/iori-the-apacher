@@ -2,6 +2,11 @@
 
 All notable changes to the backend Rust core engine, domain models, ports, adapters, SQLite persistence layer, interactive REPL shell, and REST API server are documented in this file.
 
+## [1.5.1] - 2026-09-01
+
+### Fixed (CLI REPL Shell)
+- **Curated ASCII Art Banner**: Replaced randomized startup banners with a single curated and corrected ASCII art banner featuring "IORI THE APACHER" with the letter `E` correctly included in `THE`.
+
 ## [1.5.0] - 2026-08-30
 
 ### Removed

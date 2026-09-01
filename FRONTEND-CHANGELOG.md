@@ -2,6 +2,11 @@
 
 All notable changes to the React/TypeScript/Vite web management console panel are documented in this file.
 
+## [1.2.3] - 2026-09-01
+
+### Fixed & Refined
+- **Logo & Electric Animations**: Upgraded `CabocloIoriLogo` with interactive click-to-energize activation, persistent lightning flash effects across both expanded and collapsed modes, and enhanced sidebar header typography and branding hierarchy.
+
 ## [1.2.2] - 2026-09-01
 
 ### Fixed & Refined

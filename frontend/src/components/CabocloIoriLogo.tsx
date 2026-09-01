@@ -1,63 +1,99 @@
 import React, { useState, useEffect } from 'react';
 import { Zap } from 'lucide-react';
 
-export const CabocloIoriLogo: React.FC<{ collapsed?: boolean }> = ({ collapsed = false }) => {
-  const [energized, setEnergized] = useState(false);
-  const [flashLightning, setFlashLightning] = useState(false);
+interface CabocloIoriLogoProps {
+  collapsed?: boolean;
+}
 
+export const CabocloIoriLogo: React.FC<CabocloIoriLogoProps> = ({ collapsed = false }) => {
+  const [energized, setEnergized] = useState(true);
+  const [flashLightning, setFlashLightning] = useState(true);
+
+  // Trigger lightning flash on mount & periodically
   useEffect(() => {
-    // Trigger lightning strike and energize every 30 seconds
+    // Initial entrance flash
+    const timer = setTimeout(() => {
+      setFlashLightning(false);
+    }, 1200);
+
+    const energizeTimer = setTimeout(() => {
+      setEnergized(false);
+    }, 3500);
+
+    // Periodic lightning strike every 12 seconds
     const interval = setInterval(() => {
       setFlashLightning(true);
       setEnergized(true);
 
       setTimeout(() => {
         setFlashLightning(false);
-      }, 900); // lightning flash duration
+      }, 1000);
 
       setTimeout(() => {
         setEnergized(false);
-      }, 4000); // total energized duration
-    }, 30000);
+      }, 4000);
+    }, 12000);
 
-    return () => clearInterval(interval);
+    return () => {
+      clearTimeout(timer);
+      clearTimeout(energizeTimer);
+      clearInterval(interval);
+    };
   }, []);
 
+  const triggerLightning = () => {
+    setFlashLightning(true);
+    setEnergized(true);
+    setTimeout(() => setFlashLightning(false), 1000);
+    setTimeout(() => setEnergized(false), 3500);
+  };
+
   return (
-    <div className="relative flex items-center justify-center">
-      {/* Lightning Bolt From Above */}
-      {flashLightning && !collapsed && (
-        <div className="absolute -top-14 left-1/2 transform -translate-x-1/2 z-30 pointer-events-none animate-bounce">
-          <Zap className="w-10 h-10 text-cyan-300 drop-shadow-[0_0_18px_rgba(6,182,212,0.95)]" />
+    <div 
+      className="relative flex items-center justify-center cursor-pointer group"
+      onClick={triggerLightning}
+      title="Click to activate lightning power"
+    >
+      {/* Blue Lightning Bolt Top Flash - Active in BOTH collapsed & expanded modes */}
+      {flashLightning && (
+        <div className={`absolute z-30 pointer-events-none animate-lightning ${
+          collapsed ? '-top-10' : '-top-12'
+        }`}>
+          <Zap className={`${collapsed ? 'w-8 h-8' : 'w-12 h-12'} text-cyan-300 drop-shadow-[0_0_22px_rgba(6,182,212,1)]`} />
         </div>
       )}
 
-      {/* Logo Image Container */}
-      <div className={`relative ${collapsed ? 'w-14 h-14' : 'w-24 h-24'} rounded-xl transition-all duration-700 flex items-center justify-center overflow-hidden border-2 ${
-        collapsed
-          ? 'bg-black border-white shadow-md'
-          : energized
-          ? 'border-cyan-400 shadow-[0_0_35px_rgba(6,182,212,0.9)] scale-105 brightness-125'
-          : 'border-amber-500/60 shadow-md shadow-amber-600/30'
+      {/* Secondary Electric Sparks Overlay */}
+      {energized && (
+        <>
+          <div className="absolute -left-3 top-1/2 -translate-y-1/2 z-30 pointer-events-none animate-pulse">
+            <Zap className={`${collapsed ? 'w-4 h-4' : 'w-6 h-6'} text-cyan-400 drop-shadow-[0_0_12px_rgba(6,182,212,0.9)]`} />
+          </div>
+          <div className="absolute -right-3 top-1/2 -translate-y-1/2 z-30 pointer-events-none animate-pulse">
+            <Zap className={`${collapsed ? 'w-4 h-4' : 'w-6 h-6'} text-cyan-400 drop-shadow-[0_0_12px_rgba(6,182,212,0.9)]`} />
+          </div>
+        </>
+      )}
+
+      {/* Logo Image Container - Enlarged in BOTH modes for logo face visibility */}
+      <div className={`relative ${
+        collapsed ? 'w-20 h-20' : 'w-44 h-44'
+      } rounded-2xl transition-all duration-500 flex items-center justify-center overflow-hidden border-2 ${
+        energized
+          ? 'border-cyan-400 shadow-[0_0_40px_rgba(6,182,212,0.95)] scale-105 brightness-110 ring-4 ring-cyan-500/40 animate-electric'
+          : 'border-amber-500/70 shadow-[0_0_20px_rgba(245,158,11,0.35)] group-hover:border-cyan-400 group-hover:shadow-[0_0_25px_rgba(6,182,212,0.7)]'
       }`}>
-        {collapsed ? (
-          <img
-            src="/caboclo-iori-skull.png"
-            alt="Caboclo-Iori Skull Logo"
-            className="w-full h-full object-contain"
-          />
-        ) : (
+        {/* Face Image viewable and recognizable in BOTH collapsed & expanded modes */}
         <img
           src="/caboclo-iori.jpg"
           alt="Caboclo-Iori Logo"
-          className="w-full h-full object-cover"
+          className="w-full h-full object-cover object-top transition-transform duration-500 group-hover:scale-110"
         />
-        )}
 
-        {/* Raiden Lightning Bolt Glow Overlay when energized */}
-        {energized && !collapsed && (
-          <div className="absolute inset-0 bg-cyan-400/30 mix-blend-color-dodge flex items-center justify-center pointer-events-none">
-            <div className="w-full h-full border-2 border-cyan-200 animate-ping rounded-xl opacity-90"></div>
+        {/* Blue Lightning Glow Overlay when energized - Active in BOTH modes */}
+        {energized && (
+          <div className="absolute inset-0 bg-cyan-400/25 mix-blend-color-dodge flex items-center justify-center pointer-events-none">
+            <div className="w-full h-full border-2 border-cyan-300 animate-ping rounded-2xl opacity-80"></div>
           </div>
         )}
       </div>

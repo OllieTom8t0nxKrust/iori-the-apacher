@@ -5,6 +5,12 @@ All notable changes to the master codebase (backend Rust core and frontend web p
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to Semantic Versioning.
 
+## [1.6.3] - 2026-09-01
+
+### Fixed & Refined (CLI & Frontend)
+- **Curated ASCII Art Banner**: Replaced randomized startup banners with a single curated and corrected ASCII art banner featuring "IORI THE APACHER" with the letter `E` correctly included in `THE`.
+- **Logo & Electric Animations**: Upgraded `CabocloIoriLogo` with interactive click-to-energize capabilities, persistent lightning flash effects across both expanded and collapsed modes, and refined sidebar branding hierarchy.
+
 ## [1.6.2] - 2026-09-01
 
 ### Fixed (Frontend)
