@@ -24,7 +24,9 @@ export const CliTerminal: React.FC = () => {
     let output = '';
     const cmdLower = command.trim().toLowerCase();
 
-    if (cmdLower.startsWith('tunnel create')) {
+    if (cmdLower.includes('db') || cmdLower.includes('database') || cmdLower.includes('api-server') || cmdLower.includes('--db') || cmdLower.includes('-d')) {
+      output = `Access Denied (Security Standards):\nDatabase commands and api-server commands cannot be launched or sent from the web panel terminal.\nThe frontend maintains live communication with the API server while keeping backend administrative bindings secure.`;
+    } else if (cmdLower.startsWith('tunnel create')) {
       output = `Tunnel Created Successfully:\nSubdomain: ${command.split(' ')[2] || 'custom'}\nProtocol: https\nStatus: Active (Persisted in SQLite)`;
     } else if (cmdLower.startsWith('server launch')) {
       output = `Secure Server Launched Successfully:\nProtocol: Tor/I2P/PQC\nCrypto Policy Verified: PFE-969 Lattice Core active.`;
