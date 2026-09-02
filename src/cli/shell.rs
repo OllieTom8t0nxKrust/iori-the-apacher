@@ -61,9 +61,9 @@ pub fn run_interactive_shell(service: ApplicationService, rt: &Runtime) -> Resul
         .subsec_nanos() as usize % ASCII_BANNERS.len();
 
     println!("{}", ASCII_BANNERS[banner_idx]);
-    println!("==========================================================================================");
-    println!("  Iori the APACHER - Interactive REPL Shell & Advanced Routing Suite (Tor/I2P/Freenet/PQC)");
-    println!("==========================================================================================");
+    println!("==================================================================================================================");
+    println!("            IORI THE APACHER - Interactive REPL Shell & Advanced Routing Suite (Tor/I2P/Freenet/PQC)");
+    println!("==================================================================================================================");
     println!("Type 'help' for command list and interactive documentation.");
     
     loop {
@@ -84,9 +84,9 @@ pub fn run_interactive_shell(service: ApplicationService, rt: &Runtime) -> Resul
                         break;
                     }
                     "help" => {
-                        println!("==========================================================================================");
-                        println!("Iori the APACHER - Interactive Shell Command Directory");
-                        println!("==========================================================================================");
+                        println!("==================================================================================================================");
+                        println!("IORI THE APACHER - Interactive Shell Command Directory");
+                        println!("==================================================================================================================");
                         println!("1. OS Commands: 'ls', 'pwd', 'cat', etc. execute natively.");
                         println!("2. App Commands:");
                         println!("   - tunnel list                                   : List all stored network tunnels");
@@ -99,7 +99,7 @@ pub fn run_interactive_shell(service: ApplicationService, rt: &Runtime) -> Resul
                         println!("   - create <subdomain> <port> [protocol]          : Shortcut to create tunnel session");
                         println!("   - help                                          : Print this help menu");
                         println!("   - exit / quit                                   : Exit the interactive shell");
-                        println!("==========================================================================================");
+                        println!("==================================================================================================================");
                     }
                     "tunnel" => {
                         if parts.len() > 1 && parts[1] == "list" {
