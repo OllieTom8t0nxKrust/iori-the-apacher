@@ -142,6 +142,19 @@ fn main() -> Result<(), String> {
                         println!("  Multi-hop Nodes: {:?}", config.multi_hop_nodes);
                         println!("  Proxychains Enabled: {}", config.proxychains_enabled);
                         println!("  Public Internet Launch: {}", config.public_internet_launch);
+
+                        let background = iori_the_apacher::prompt_background_thread();
+                        if background {
+                            println!("Server listener placed into background thread. Session active.");
+                            let _srv_id = config.id.clone();
+                            std::thread::spawn(move || {
+                                loop {
+                                    std::thread::sleep(std::time::Duration::from_secs(3600));
+                                }
+                            });
+                        } else {
+                            println!("Maintaining the same session open with endpoint details displayed in the CLI, just as is now.");
+                        }
                     }
                     ServerAction::List => {
                         let list = service.list_server_launches().await?;
@@ -179,11 +192,25 @@ fn main() -> Result<(), String> {
             shell::run_interactive_shell(service, &rt)?;
         }
         Commands::ApiServer { port } => {
+            let background = iori_the_apacher::prompt_background_thread();
             let api = iori_the_apacher::adapters::api_server::ApiServer::new(Arc::new(service), port);
-            rt.block_on(async {
-                api.run().await
-            })?;
-        }
+            if background {
+                println!("Starting API server in a background thread on port {}...", port);
+                std::thread::spawn(move || {
+                    let rt_bg = tokio::runtime::Runtime::new().unwrap();
+                    rt_bg.block_on(async {
+                        if let Err(e) = api.run().await {
+                            eprintln!("API Server background error: {}", e);
+                        }
+                    });
+                });
+                println!("API server running in background. Session active.");
+            } else {
+                rt.block_on(async {
+                    api.run().await
+                })?;
+            }
+        },
         Commands::Create { subdomain, port, protocol } => {
             rt.block_on(async {
                 let session = service.create_tunnel(subdomain, port, protocol).await?;

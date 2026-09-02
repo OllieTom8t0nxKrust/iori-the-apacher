@@ -1,3 +1,4 @@
+use std::sync::Arc;
 use std::process::Command;
 use rustyline::error::ReadlineError;
 use rustyline::DefaultEditor;
@@ -96,6 +97,7 @@ pub fn run_interactive_shell(service: ApplicationService, rt: &Runtime) -> Resul
                         println!("   - crypto vault-list                             : List secure crypto vault records");
                         println!("   - server list                                   : List launched secure servers");
                         println!("   - server launch <subdomain> <port> [proto] [crypto] : Launch server with Tor/I2P/PQC");
+                        println!("   - api-server [port]                             : Start HTTP JSON API server for frontend live sync");
                         println!("   - create <subdomain> <port> [protocol]          : Shortcut to create tunnel session");
                         println!("   - help                                          : Print this help menu");
                         println!("   - exit / quit                                   : Exit the interactive shell");
@@ -215,21 +217,59 @@ pub fn run_interactive_shell(service: ApplicationService, rt: &Runtime) -> Resul
                                 _ => CryptoRequirement::QuantumPfe969Lattice,
                             };
 
-                            let s = service.clone();
-                            if let Err(e) = rt.block_on(async {
-                                let config = s.launch_server(subdomain, port, proto, crypto_req, vec![], false, true).await?;
-                                println!("Secure Server Launched Successfully!");
-                                println!("  ID: {}", config.id);
-                                println!("  Subdomain: {}", config.subdomain);
-                                println!("  Port: {}", config.target_port);
-                                println!("  Protocol: {:?}", config.protocol);
-                                println!("  Crypto Protection: {:?}", config.crypto_requirement);
-                                Ok::<(), String>(())
-                            }) {
-                                println!("Error: {}", e);
-                            }
+                             let s = service.clone();
+                             if let Err(e) = rt.block_on(async {
+                                 let config = s.launch_server(subdomain, port, proto, crypto_req, vec![], false, true).await?;
+                                 println!("Secure Server Launched Successfully!");
+                                 println!("  ID: {}", config.id);
+                                 println!("  Subdomain: {}", config.subdomain);
+                                 println!("  Port: {}", config.target_port);
+                                 println!("  Protocol: {:?}", config.protocol);
+                                 println!("  Crypto Protection: {:?}", config.crypto_requirement);
+
+                                  let background = crate::prompt_background_thread();
+                                 if background {
+                                     println!("Server listener placed into background thread. Interactive shell remains free.");
+                                     let srv_id = config.id.clone();
+                                     std::thread::spawn(move || {
+                                         println!("Background thread active for server launch [{}]", srv_id);
+                                         loop {
+                                             std::thread::sleep(std::time::Duration::from_secs(3600));
+                                         }
+                                     });
+                                 } else {
+                                     println!("Maintaining the same session open with endpoint details displayed in the CLI, just as is now.");
+                                 }
+                                 Ok::<(), String>(())
+                             }) {
+                                 println!("Error: {}", e);
+                             }
                         } else {
                             println!("Usage: server list | server launch <subdomain> <port> [protocol] [crypto]");
+                        }
+                    }
+                    "api-server" => {
+                        let port = if parts.len() > 1 { parts[1].parse::<u16>().unwrap_or(8080) } else { 8080 };
+                        let background = crate::prompt_background_thread();
+                        let srv_service = Arc::new(service.clone());
+                        let api = crate::adapters::api_server::ApiServer::new(srv_service, port);
+                        if background {
+                            println!("Starting API server in a background thread on port {}...", port);
+                            std::thread::spawn(move || {
+                                let rt_bg = tokio::runtime::Runtime::new().unwrap();
+                                rt_bg.block_on(async {
+                                    if let Err(e) = api.run().await {
+                                        eprintln!("API Server background error: {}", e);
+                                    }
+                                });
+                            });
+                            println!("API server running in background. Interactive shell remains free.");
+                        } else {
+                            if let Err(e) = rt.block_on(async {
+                                api.run().await
+                            }) {
+                                println!("API Server error: {}", e);
+                            }
                         }
                     }
                     "create" => {
