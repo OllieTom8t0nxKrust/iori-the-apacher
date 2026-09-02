@@ -1,6 +1,6 @@
 #[cfg(test)]
 mod tests {
-    use crate::domain::tunnel::TunnelSession;
+    use iori_the_apacher::domain::tunnel::TunnelSession;
 
     #[test]
     fn test_tunnel_session_creation() {

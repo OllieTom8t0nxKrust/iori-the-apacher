@@ -1,9 +1,10 @@
 # TODOs for Iori the Apacher Testing Suite
 
-- [x] Structure the test directory as requested. [Priority: high, Status: completed]
-- [x] Implement Unit Tests for Domain models (Tunnel, Crypto). [Priority: high, Status: completed]
-- [x] Implement Integration Tests for Application Services. [Priority: high, Status: completed]
-- [ ] Implement Integrity Tests (Persistence, Schema). [Priority: high, Status: pending]
-- [ ] Implement Mutation Tests (Fault injection). [Priority: medium, Status: pending]
-- [ ] Implement Chaos Tests (DB lock simulation, Network failures). [Priority: medium, Status: pending]
+- [x] Structure the test directory as requested (`unitests`, `integration-tests`, `integrity-tests`, `mutation-tests`, `chaos-tests`). [Priority: high, Status: completed]
+- [x] Implement Unit Tests for Domain models (Tunnel, Crypto Engine, Vault, Routing). [Priority: high, Status: completed]
+- [x] Implement Integration Tests for Application Services & Server Launch Verification. [Priority: high, Status: completed]
+- [x] Implement Integrity Tests (SQLite schema migration, Vault persistence integrity). [Priority: high, Status: completed]
+- [x] Implement Mutation Tests (Fault injection, corrupted ciphertexts, invalid keys). [Priority: high, Status: completed]
+- [x] Implement Chaos Tests (Concurrent DB writes, rapid session churn, stress testing). [Priority: high, Status: completed]
+- [x] Create TEST-CHANGELOG.md tracking all test suite additions. [Priority: high, Status: completed]
 - [ ] Manual Action: Review and perform GUI/Pentest operations. [Priority: high, Status: pending]

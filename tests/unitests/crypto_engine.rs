@@ -1,6 +1,6 @@
 #[cfg(test)]
 mod tests {
-    use crate::domain::crypto_config::{CryptoEngine, DomesticAlgorithm};
+    use iori_the_apacher::domain::crypto_config::{CryptoEngine, DomesticAlgorithm};
 
     #[test]
     fn test_aes_gcm_encryption_success() {
