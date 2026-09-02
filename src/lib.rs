@@ -30,3 +30,24 @@ pub fn parse_crypto_req(s: &str) -> crate::domain::routing::CryptoRequirement {
         _ => crate::domain::routing::CryptoRequirement::None,
     }
 }
+
+pub fn prompt_background_thread() -> bool {
+    use std::io::{self, Write};
+    loop {
+        print!("Do you wish to open a thread to run this service as a background process? [Y/N]: ");
+        let _ = io::stdout().flush();
+        let mut input = String::new();
+        if io::stdin().read_line(&mut input).is_ok() {
+            let ans = input.trim().to_uppercase();
+            if ans == "Y" || ans == "YES" {
+                return true;
+            } else if ans == "N" || ans == "NO" || ans.is_empty() {
+                return false;
+            } else {
+                println!("Please enter Y or N (accepts Y, y, N, n, YES, NO in all caps or lower case).");
+            }
+        } else {
+            return false;
+        }
+    }
+}
