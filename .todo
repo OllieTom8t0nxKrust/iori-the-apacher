@@ -1,0 +1,9 @@
+# TODOs for Iori the Apacher Testing Suite
+
+- [x] Structure the test directory as requested. [Priority: high, Status: completed]
+- [x] Implement Unit Tests for Domain models (Tunnel, Crypto). [Priority: high, Status: completed]
+- [x] Implement Integration Tests for Application Services. [Priority: high, Status: completed]
+- [ ] Implement Integrity Tests (Persistence, Schema). [Priority: high, Status: pending]
+- [ ] Implement Mutation Tests (Fault injection). [Priority: medium, Status: pending]
+- [ ] Implement Chaos Tests (DB lock simulation, Network failures). [Priority: medium, Status: pending]
+- [ ] Manual Action: Review and perform GUI/Pentest operations. [Priority: high, Status: pending]
