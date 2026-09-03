@@ -70,21 +70,21 @@ export const CabocloIoriLogo: React.FC<CabocloIoriLogoProps> = ({ collapsed = fa
           ? 'border-cyan-400 shadow-[0_0_40px_rgba(6,182,212,0.95)] scale-105 brightness-110 ring-4 ring-cyan-500/40 animate-electric'
           : 'border-amber-500/80 shadow-[0_0_25px_rgba(245,158,11,0.4)] group-hover:border-cyan-400 group-hover:shadow-[0_0_30px_rgba(6,182,212,0.7)]'
       }`}>
-        {/* Expanded Image: Caboclo-Iori (Enlarged & High Visibility inside black square) */}
+        {/* Expanded Image: Caboclo-Iori (Proportioned, Aligned, Black Background) */}
         <img
           src="/caboclo-iori.jpg"
           alt="Caboclo-Iori"
-          className={`absolute inset-0 w-full h-full object-cover object-top scale-125 transition-all duration-700 ease-in-out ${
-            collapsed ? 'opacity-0 scale-95 rotate-6' : 'opacity-100 scale-125 rotate-0'
+          className={`absolute inset-0 w-full h-full object-cover object-top transition-all duration-700 ease-in-out ${
+            collapsed ? 'opacity-0 scale-95' : 'opacity-100 scale-100'
           } filter contrast-125 brightness-110`}
         />
 
-        {/* Collapsed Image: Caboclo-Pena-Branca (Object-contain to show whole cockade & attributes) */}
+        {/* Collapsed Image: Caboclo-Pena-Branca (Proportioned, Aligned, Black Background, Full Character & Cockade) */}
         <img
           src="/caboclo-pena-branca.png"
           alt="Caboclo-Pena-Branca"
-          className={`absolute inset-0 w-full h-full object-contain object-center transition-all duration-700 ease-in-out ${
-            collapsed ? 'opacity-100 scale-100 rotate-0' : 'opacity-0 scale-95 -rotate-6'
+          className={`absolute inset-0 w-full h-full object-cover object-center transition-all duration-700 ease-in-out ${
+            collapsed ? 'opacity-100 scale-100' : 'opacity-0 scale-95'
           } filter contrast-125 brightness-110`}
         />
 
