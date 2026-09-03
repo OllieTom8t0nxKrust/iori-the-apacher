@@ -2,6 +2,13 @@
 
 All notable changes to the React/TypeScript/Vite web management console panel are documented in this file.
 
+## [1.3.0] - 2026-09-02
+
+### Added
+- **FOSS Observability & Data Visualization Hub**: Implemented modular "power-point plug" style telemetry dashboard (`ObservabilityDashboard.tsx`) supporting Grafana, Prometheus, Jaeger, OpenTelemetry, ELK/Kibana, Zabbix, Netdata, Loki, VictoriaMetrics, and Fluentd.
+- **Apache Ecosystem & Big Data Hub**: Implemented comprehensive management UI (`ApacheBigDataHub.tsx`) for Kafka, Spark, Hadoop, Flink, Airflow, Hive, HBase, Cassandra, NiFi, Solr, Superset, Pulsar, Iceberg, Tomcat, httpd, Arrow, Camel, and Druid.
+- **Secure Frontend Isolation**: Enforced strict security boundary ensuring database and backend api-server administrative controls are entirely isolated and never exposed in the frontend UI to prevent data leaks.
+
 ## [1.2.3] - 2026-09-01
 
 ### Fixed & Refined

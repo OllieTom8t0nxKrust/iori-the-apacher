@@ -2,6 +2,11 @@
 
 All notable changes to the test suite (unit, integration, integrity, mutation, and chaos tests) are documented in this file.
 
+## [1.1.0] - 2026-09-02
+
+### Added
+- **Failover & Telemetry Unit Tests**: Added rigorous unit tests (`tests/unitests/failover_telemetry.rs`) covering circuit breaker state transitions, failover orchestrator fallback success flows, and Prometheus telemetry metrics generation.
+
 ## [1.0.0] - 2026-09-02
 
 ### Added

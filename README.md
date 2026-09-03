@@ -32,9 +32,18 @@
    - Glassmorphism dark-mode control panel featuring real-time tunnel monitoring, server launcher management, quantum cipher validation, and Caboclo-Iori branding assets.
    - **Responsive UX**: Fully responsive sidebar with collapsible design featuring an interactive skull transformation logo, optimized for desktop and mobile devices.
 
-6. **Enhanced Interactive REPL Shell**:
-   - **Persistent Command History**: Automatically saves and loads session history across restarts (`.iori_history`).
-   - **Direct Binary Execution**: Executes native Linux system commands (`ls`, `pwd`, `ps`) securely as direct child processes without shell interpreter injection vulnerabilities.
+6. **Failover Orchestration & Resilient Circuit Breakers**:
+   - Automated circuit breaker state machine (`Healthy`, `Degraded`, `FailoverActive`) and seamless secondary path fallback execution (`FailoverOrchestrator`).
+   - Real-time telemetry collection and Prometheus text-format metric scraping.
+
+7. **FOSS Observability & Data Visualization Power-Plug Hub**:
+   - Modular "power-point plug" style telemetry dashboards supporting Grafana, Prometheus, Jaeger, OpenTelemetry, ELK/Kibana, Zabbix, Netdata, Loki, VictoriaMetrics, and Fluentd.
+
+8. **Comprehensive Apache Ecosystem & Big Data Super-Cluster Hub**:
+   - Full integration adapters and management support for **ALL Apache tools & Big Data frameworks** (Kafka, Spark, Hadoop HDFS, Flink, Airflow, Hive, HBase, Cassandra, NiFi, Solr, Superset, Pulsar, Iceberg, Tomcat, httpd, Arrow, Camel, Druid).
+
+9. **Secure Frontend Isolation**:
+   - Strict security boundary ensuring database and backend administrative API-server features are entirely isolated and never exposed in the frontend UI to prevent vulnerability leakage.
 
 ---
 

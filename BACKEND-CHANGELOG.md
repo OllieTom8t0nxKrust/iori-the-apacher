@@ -2,6 +2,13 @@
 
 All notable changes to the backend Rust core engine, domain models, ports, adapters, SQLite persistence layer, interactive REPL shell, and REST API server are documented in this file.
 
+## [1.6.0] - 2026-09-02
+
+### Added
+- **Failover & Circuit Breaker Domain Module**: Implemented resilient circuit breaker (`CircuitBreaker`) and seamless failover orchestrator (`FailoverOrchestrator`) in `src/domain/failover.rs` with health state tracking (Healthy, Degraded, FailoverActive).
+- **Telemetry & Prometheus Exporter Module**: Implemented telemetry metrics collection (`TelemetryMetrics`) and Prometheus text-format exporter in `src/domain/telemetry.rs` for real-time observability scraping.
+- **Apache Ecosystem & Big Data Integration Adapters**: Expanded backend service capabilities to support full integration adapters for Apache Kafka, Spark, Hadoop HDFS, Flink, Airflow, Hive, HBase, Cassandra, NiFi, Solr, Superset, Pulsar, Iceberg, Tomcat, httpd, Arrow, Camel, and Druid.
+
 ## [1.5.1] - 2026-09-01
 
 ### Fixed (CLI REPL Shell)
