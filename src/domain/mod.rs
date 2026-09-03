@@ -6,3 +6,5 @@ pub mod routing;
 pub mod proxychains;
 pub mod failover;
 pub mod telemetry;
+pub mod apache_tools;
+pub mod observability_adapter;
