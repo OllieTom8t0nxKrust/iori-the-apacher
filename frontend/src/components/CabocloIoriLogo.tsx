@@ -11,7 +11,6 @@ export const CabocloIoriLogo: React.FC<CabocloIoriLogoProps> = ({ collapsed = fa
 
   // Trigger lightning flash on mount & periodically
   useEffect(() => {
-    // Initial entrance flash
     const timer = setTimeout(() => {
       setFlashLightning(false);
     }, 1200);
@@ -20,7 +19,6 @@ export const CabocloIoriLogo: React.FC<CabocloIoriLogoProps> = ({ collapsed = fa
       setEnergized(false);
     }, 3500);
 
-    // Periodic lightning strike every 12 seconds
     const interval = setInterval(() => {
       setFlashLightning(true);
       setEnergized(true);
@@ -41,19 +39,8 @@ export const CabocloIoriLogo: React.FC<CabocloIoriLogoProps> = ({ collapsed = fa
     };
   }, []);
 
-  const triggerLightning = () => {
-    setFlashLightning(true);
-    setEnergized(true);
-    setTimeout(() => setFlashLightning(false), 1000);
-    setTimeout(() => setEnergized(false), 3500);
-  };
-
   return (
-    <div 
-      className="relative flex items-center justify-center cursor-pointer group"
-      onClick={triggerLightning}
-      title="Click to activate lightning power"
-    >
+    <div className="relative flex items-center justify-center group cursor-pointer">
       {/* Blue Lightning Bolt Top Flash - Active in BOTH collapsed & expanded modes */}
       {flashLightning && (
         <div className={`absolute z-30 pointer-events-none animate-lightning ${
@@ -75,24 +62,35 @@ export const CabocloIoriLogo: React.FC<CabocloIoriLogoProps> = ({ collapsed = fa
         </>
       )}
 
-      {/* Logo Image Container - Enlarged in BOTH modes for logo face visibility */}
-      <div className={`relative ${
+      {/* Black Square Logo Container */}
+      <div className={`relative bg-black ${
         collapsed ? 'w-20 h-20' : 'w-44 h-44'
-      } rounded-2xl transition-all duration-500 flex items-center justify-center overflow-hidden border-2 ${
+      } rounded-2xl transition-all duration-700 ease-in-out flex items-center justify-center overflow-hidden border-2 ${
         energized
           ? 'border-cyan-400 shadow-[0_0_40px_rgba(6,182,212,0.95)] scale-105 brightness-110 ring-4 ring-cyan-500/40 animate-electric'
-          : 'border-amber-500/70 shadow-[0_0_20px_rgba(245,158,11,0.35)] group-hover:border-cyan-400 group-hover:shadow-[0_0_25px_rgba(6,182,212,0.7)]'
+          : 'border-amber-500/80 shadow-[0_0_25px_rgba(245,158,11,0.4)] group-hover:border-cyan-400 group-hover:shadow-[0_0_30px_rgba(6,182,212,0.7)]'
       }`}>
-        {/* Face Image viewable and recognizable in BOTH collapsed & expanded modes */}
+        {/* Expanded Image: Caboclo-Iori (Enlarged & High Visibility inside black square) */}
         <img
           src="/caboclo-iori.jpg"
-          alt="Caboclo-Iori Logo"
-          className="w-full h-full object-cover object-top transition-transform duration-500 group-hover:scale-110"
+          alt="Caboclo-Iori"
+          className={`absolute inset-0 w-full h-full object-cover object-top scale-125 transition-all duration-700 ease-in-out ${
+            collapsed ? 'opacity-0 scale-95 rotate-6' : 'opacity-100 scale-125 rotate-0'
+          } filter contrast-125 brightness-110`}
         />
 
-        {/* Blue Lightning Glow Overlay when energized - Active in BOTH modes */}
+        {/* Collapsed Image: Caboclo-Pena-Branca (Smoothly transformed & enlarged when collapsed) */}
+        <img
+          src="/caboclo-pena-branca.png"
+          alt="Caboclo-Pena-Branca"
+          className={`absolute inset-0 w-full h-full object-cover object-center scale-125 transition-all duration-700 ease-in-out ${
+            collapsed ? 'opacity-100 scale-125 rotate-0' : 'opacity-0 scale-95 -rotate-6'
+          } filter contrast-125 brightness-110`}
+        />
+
+        {/* Blue Lightning Glow Overlay when energized */}
         {energized && (
-          <div className="absolute inset-0 bg-cyan-400/25 mix-blend-color-dodge flex items-center justify-center pointer-events-none">
+          <div className="absolute inset-0 bg-cyan-400/20 mix-blend-color-dodge flex items-center justify-center pointer-events-none">
             <div className="w-full h-full border-2 border-cyan-300 animate-ping rounded-2xl opacity-80"></div>
           </div>
         )}
