@@ -10,3 +10,5 @@ mod routing_config;
 mod proxychains;
 #[path = "unitests/failover_telemetry.rs"]
 mod failover_telemetry;
+#[path = "unitests/apache_observability.rs"]
+mod apache_observability;
