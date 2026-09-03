@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Activity, BarChart3, Radio, Database, Cpu, Layers, CheckCircle2, Sliders, Server, RefreshCw } from 'lucide-react';
+import { Activity, BarChart3, CheckCircle2, Sliders } from 'lucide-react';
 
 export const ObservabilityDashboard: React.FC = () => {
   const [activeTool, setActiveTool] = useState('grafana');

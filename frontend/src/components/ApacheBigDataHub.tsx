@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Layers, Database, Cpu, Terminal, CheckCircle2, Server, Workflow, Flame, ShieldAlert, CpuIcon } from 'lucide-react';
+import { Layers, CheckCircle2, Server } from 'lucide-react';
 
 export const ApacheBigDataHub: React.FC = () => {
   const [selectedTool, setSelectedTool] = useState('kafka');
