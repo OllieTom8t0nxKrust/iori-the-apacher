@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { LayoutDashboard, Network, Server, Lock, Cpu, Terminal } from 'lucide-react';
+import { LayoutDashboard, Network, Server, Lock, Cpu, Terminal, Activity, Layers } from 'lucide-react';
 import { CabocloIoriLogo } from './CabocloIoriLogo';
 
 interface SidebarProps {
@@ -11,6 +11,8 @@ export const Sidebar: React.FC<SidebarProps> = ({ activeTab, setActiveTab }) => 
   const [collapsed, setCollapsed] = useState(false);
   const menuItems = [
     { id: 'dashboard', label: 'Dashboard', icon: LayoutDashboard },
+    { id: 'observability', label: 'Observability & FOSS', icon: Activity },
+    { id: 'apache-bigdata', label: 'Apache & Big Data', icon: Layers },
     { id: 'tunnels', label: 'Tunnels & DNS', icon: Network },
     { id: 'servers', label: 'Secure Servers', icon: Server },
     { id: 'crypto-vault', label: 'Crypto Vault', icon: Lock },

@@ -1,6 +1,8 @@
 import { useState } from 'react';
 import { Sidebar } from './components/Sidebar';
 import { DashboardOverview } from './components/DashboardOverview';
+import { ObservabilityDashboard } from './components/ObservabilityDashboard';
+import { ApacheBigDataHub } from './components/ApacheBigDataHub';
 import { TunnelManager } from './components/TunnelManager';
 import { ServerLaunchManager } from './components/ServerLaunchManager';
 import { CryptoSubmenus } from './components/CryptoSubmenus';
@@ -14,6 +16,10 @@ export function App() {
     switch (activeTab) {
       case 'dashboard':
         return <DashboardOverview />;
+      case 'observability':
+        return <ObservabilityDashboard />;
+      case 'apache-bigdata':
+        return <ApacheBigDataHub />;
       case 'tunnels':
         return <TunnelManager />;
       case 'servers':
