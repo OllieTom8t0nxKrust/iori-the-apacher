@@ -64,7 +64,7 @@ export const CabocloIoriLogo: React.FC<CabocloIoriLogoProps> = ({ collapsed = fa
 
       {/* Black Square Logo Container */}
       <div className={`relative bg-black ${
-        collapsed ? 'w-20 h-20' : 'w-44 h-44'
+        collapsed ? 'w-28 h-28' : 'w-44 h-44'
       } rounded-2xl transition-all duration-700 ease-in-out flex items-center justify-center overflow-hidden border-2 ${
         energized
           ? 'border-cyan-400 shadow-[0_0_40px_rgba(6,182,212,0.95)] scale-105 brightness-110 ring-4 ring-cyan-500/40 animate-electric'
@@ -79,12 +79,12 @@ export const CabocloIoriLogo: React.FC<CabocloIoriLogoProps> = ({ collapsed = fa
           } filter contrast-125 brightness-110`}
         />
 
-        {/* Collapsed Image: Caboclo-Pena-Branca (Smoothly transformed & enlarged when collapsed) */}
+        {/* Collapsed Image: Caboclo-Pena-Branca (Object-contain to show whole cockade & attributes) */}
         <img
           src="/caboclo-pena-branca.png"
           alt="Caboclo-Pena-Branca"
-          className={`absolute inset-0 w-full h-full object-cover object-center scale-125 transition-all duration-700 ease-in-out ${
-            collapsed ? 'opacity-100 scale-125 rotate-0' : 'opacity-0 scale-95 -rotate-6'
+          className={`absolute inset-0 w-full h-full object-contain object-center transition-all duration-700 ease-in-out ${
+            collapsed ? 'opacity-100 scale-100 rotate-0' : 'opacity-0 scale-95 -rotate-6'
           } filter contrast-125 brightness-110`}
         />
 
