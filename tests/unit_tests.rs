@@ -8,3 +8,5 @@ mod crypto_vault;
 mod routing_config;
 #[path = "unitests/proxychains.rs"]
 mod proxychains;
+#[path = "unitests/failover_telemetry.rs"]
+mod failover_telemetry;
