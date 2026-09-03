@@ -14,3 +14,4 @@
 - [x] Write comprehensive test suite (unit, integration, integrity, mutation, chaos) for new features. [Priority: high, Status: completed]
 - [x] Update all documentation and changelogs in root repository. [Priority: high, Status: completed]
 - [x] Perform atomic git staging, commits, and push. [Priority: high, Status: completed]
+- [x] Formulate and document v1.1.0 Strategic Improvement Plan (`IMPROVEMENT-PLAN-v1.1.0.md`). [Priority: high, Status: completed]
